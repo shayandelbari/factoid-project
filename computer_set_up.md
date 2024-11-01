@@ -40,3 +40,7 @@ git push
 
 ![Pushing changes](<Screenshot 2024-11-01 143153.png>)
 **This step is for pushing changes**
+
+## Useful links
+
+[Mark down cheat sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
