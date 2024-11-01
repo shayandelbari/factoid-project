@@ -1,26 +1,33 @@
-# How to set up 
+# Tutorial
+
+## Setting up
 
 run
+
 ```bash
 git clone https://github.com/shayandelbari/factoid-project.git
 cd factoid-project
-```
-then
-```bash
 dotnet run
 ```
-(or how ever else you run the project in Visual Studio Code)
 
-> You shouldn't need to change any files other than ```Program.cs``` and ```README.md```. If anything else showed up in your "git tree" DON"T COMMIT IT.
+or how ever else you run the project in Visual Studio Code
 
-Also it's a good idea to run ```git pull``` before you start editing files to get the latest changes.
+> You shouldn't need to change any files other than `Program.cs` and `README.md`. If anything else showed up in your "git tree" DON"T COMMIT IT.
 
-# How to commit
+Also it's a good idea to run `git pull` before you start editing files to get the latest changes.
+
+## Commiting
+
 ### Command line interface (CLI)
+
 run
+
 ```bash
 git add -A
-git commit -m "A discripteave message to discribe this commit"
+git commit -m "A descriptive message to describe this commit"
 git push
 ```
+
 (You may be asked to input you name and email when you're trying to commit)
+
+### Visual Studio Code
