@@ -1,6 +1,8 @@
 # Factoid-Algorithm-Project
 
-- [ ] figure out the main breakdown :)
+- [x] figure out the main breakdown :)
+- [ ] breakdown the tasks
+- [ ] assign names for each task
 
 ### Question Analysis Module
 
@@ -48,11 +50,6 @@
 - [ ] Report Enrichment:
       o Discuss three limitations of your system and potential solutions.
       o Identify and elaborate on the module that posed the most challenges during this project.
-
-=======
-
-- [ ] breakdown the tasks
-- [ ] assign names for each task
 
 ---
 
