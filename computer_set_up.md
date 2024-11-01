@@ -32,8 +32,11 @@ git push
 
 ### Visual Studio Code
 
-![Syncing Changes in Visual Studio Code](<Screenshot 2024-11-01 142656.png> "This step is to Sync changes")
+![Syncing Changes in Visual Studio Code](<Screenshot 2024-11-01 142656.png>)
+**This step is to Sync changes**
 
-![Committing changes](<Screenshot 2024-11-01 142929.png> "This step is for committing changes")
+![Committing changes](<Screenshot 2024-11-01 142929.png>)
+**This step is for committing changes**
 
-![Pushing changes](<Screenshot 2024-11-01 143153.png> "This step is for pushing changes")
+![Pushing changes](<Screenshot 2024-11-01 143153.png>)
+**This step is for pushing changes**
