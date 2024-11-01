@@ -16,7 +16,7 @@ or how ever else you run the project in Visual Studio Code
 
 Also it's a good idea to run `git pull` before you start editing files to get the latest changes.
 
-## Commiting
+## Committing
 
 ### Command line interface (CLI)
 
@@ -31,3 +31,9 @@ git push
 (You may be asked to input you name and email when you're trying to commit)
 
 ### Visual Studio Code
+
+![Syncing Changes in Visual Studio Code](<Screenshot 2024-11-01 142656.png> "This step is to Sync changes")
+
+![Committing changes](<Screenshot 2024-11-01 142929.png> "This step is for committing changes")
+
+![Pushing changes](<Screenshot 2024-11-01 143153.png> "This step is for pushing changes")
