@@ -20,7 +20,7 @@
 - [ ] Write a C# function that takes a question as input and returns the **expected answer type**.
 
 > [!NOTE]
-> We have to create a function that gets the question and returns whether it is about `Person`, `Location`, `Date`, and `Number` based on the first (or the first two) word.
+> We have to create a function that gets the question and returns whether it is about `Person`, `Location`, `Date`, and `Number` based on the first (or the first two) words.
 
 ### Sentence Similarity Module
 
