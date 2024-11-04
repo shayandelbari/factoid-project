@@ -15,9 +15,9 @@
 
 ### 1. Question Analysis Module
 
-- [ ] Provide an analysis of the question analysis module.
-- [ ] Write an algorithm (pseudo-code) that generates the expected answer type (e.g., person’s name, date, location).
-- [ ] Write a C# function that takes a question as input and returns the **expected answer type**.
+- [x] Provide an analysis of the question analysis module.
+- [x] Write an algorithm (pseudo-code) that generates the expected answer type (e.g., person’s name, date, location).
+- [x] Write a C# function that takes a question as input and returns the **expected answer type**.
 
 > [!NOTE]
 > We have to create a function that gets the question and returns whether it is about `Person`, `Location`, `Date`, and `Number` based on the first (or the first two) words.

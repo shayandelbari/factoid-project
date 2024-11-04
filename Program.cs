@@ -4,8 +4,8 @@
     {
         Console.WriteLine("Hello");
         // Another();
-        string firstWorld = DetermineFactoidType("How many was the");
-        Console.WriteLine(firstWorld);
+        string questionType = DetermineFactoidType("Who was the");
+        Console.WriteLine(questionType);
     }
 
     static void Another()
@@ -45,8 +45,18 @@
                 answerType = "Person";
                 break;
             case "Where":
-
-            case _:
+                answerType = "Location";
+                break;
+            case "When":
+                answerType = "Date Time";
+                break;
+            case "How many":
+                answerType = "Number";
+                break;
+            case "How much":
+                answerType = "Number";
+                break;
+            default:
                 answerType = "Invalid Question";
                 break;
         }
