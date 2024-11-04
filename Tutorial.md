@@ -12,9 +12,11 @@ dotnet run
 
 or how ever else you run the project in Visual Studio Code
 
+> [!IMPORTANT]
 > You shouldn't need to change any files other than `Program.cs` and `README.md`. If anything else showed up in your "git tree" DON"T COMMIT IT.
 
-Also it's a good idea to run `git pull` before you start editing files to get the latest changes.
+> [!TIP]
+> It's a good idea to run `git pull` before you start editing files to get the latest changes.
 
 ## Committing
 
