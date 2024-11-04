@@ -10,16 +10,16 @@ done = false;
 WHILE done == false; 
 firstWord[i] = firstWord + question[i];
 
-  IF firstWord[i] != ‘ ‘ AND firstWord != “How” THEN
+IF firstWord[i] != ‘ ‘ AND firstWord != “How” THEN
   	IF firstWord == “How” THEN
   	firstWord = firstWord + question[i];
-  ELSE
+ELSE
   	IF question[i] == ' ' AND firstWorld == "How" THEN
 	  	firstWord = firstWord + question[i];
             		i = i +1;
-		  firstWord = firstWord + question[i];
-		END IF;
+		firstWord = firstWord + question[i];
 	END IF;
+END IF;
 i = i +1;
   IF question[i] == ‘ ‘ THEN
 	  done = true;
