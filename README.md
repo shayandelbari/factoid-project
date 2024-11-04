@@ -1,14 +1,26 @@
 # Factoid-Algorithm-Project
 
+---
+
+## Project management
+
 - [x] figure out the main breakdown :)
+- [x] breakdown the steps suggested
 - [ ] breakdown the tasks
 - [ ] assign names for each task
 
-### Question Analysis Module
+---
+
+## Steps
+
+### 1. Question Analysis Module
 
 - [ ] Provide an analysis of the question analysis module.
 - [ ] Write an algorithm (pseudo-code) that generates the expected answer type (e.g., person’s name, date, location).
-- [ ] Write a C# function that takes a question as input and returns the expected answer type.
+- [ ] Write a C# function that takes a question as input and returns the **expected answer type**.
+
+> [!NOTE]
+> We have to create a function that gets the question and returns whether it is about `Person`, `Location`, `Date`, and `Number` based on the first (or the first two) word.
 
 ### Sentence Similarity Module
 
@@ -43,17 +55,12 @@
 
 ### Testing
 
-- [ ] Your program should allow the user to ask multiple factoid questions, such as:
-      o When was Konrad Zuse born?
-      o Where was Konrad Zuse born?
-      o Who is the creator of the first high-level programming language?
-- [ ] Report Enrichment:
-      o Discuss three limitations of your system and potential solutions.
-      o Identify and elaborate on the module that posed the most challenges during this project.
+- [ ] Your program should allow the user to ask multiple factoid questions, such as: - `When was Konrad Zuse born?` - `Where was Konrad Zuse born?` - `Who is the creator of the first high-level programming language?`
+- [ ] Report Enrichment: - Discuss three limitations of your system and potential solutions. - Identify and elaborate on the module that posed the most challenges during this project.
 
 ---
 
-### functions suggested by the prof
+## Functions suggested by the prof
 
 - [ ] **determineFactoidType**
 
