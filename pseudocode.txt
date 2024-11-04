@@ -7,10 +7,10 @@ BEGIN
 i = 0;
 done = false;
 
-WHILE done == false; 
+WHILE done == false DO; 
 firstWord[i] = firstWord + question[i];
 
-IF firstWord[i] != ‘ ‘ AND firstWord != “How” THEN
+IF firstWord[i] != ' ' AND firstWord != “How” THEN
   	IF firstWord == “How” THEN
   	firstWord = firstWord + question[i];
 ELSE
@@ -21,7 +21,7 @@ ELSE
 	END IF;
 END IF;
 i = i +1;
-  IF question[i] == ‘ ‘ THEN
+  IF question[i] == ' ' THEN
 	  done = true;
   END IF;
 END WHILE;
@@ -44,7 +44,7 @@ SWITCH (firstWord) DO
 		factoidType = getAmount;
 		Break;
 	default:
-    Write (“The question you have asked is invalid, please rephrase your question and ask again.”);
+    Write ("The question you have asked is invalid, please rephrase your question and ask again.");
 		Break;
 END SWITCH;
 
