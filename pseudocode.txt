@@ -1,1 +1,52 @@
+Algorithm detemineFacoidType;
+Var sting firstWord, question, faactoidType;
+Var boolean done;
+
+BEGIN
+//assuming that question is already input
+i = 0;
+done = false;
+
+WHILE done == false DO; 
+firstWord[i] = firstWord + question[i];
+
+IF firstWord[i] != ' ' AND firstWord != “How” THEN
+  	IF firstWord == “How” THEN
+  	firstWord = firstWord + question[i];
+ELSE
+  	IF question[i] == ' ' AND firstWorld == "How" THEN
+	  	firstWord = firstWord + question[i];
+            		i = i +1;
+		firstWord = firstWord + question[i];
+	END IF;
+END IF;
+i = i +1;
+  IF question[i] == ' ' THEN
+	  done = true;
+  END IF;
+END WHILE;
+
+
+SWITCH (firstWord) DO
+	case “Who”:
+		factoidType = getPerson;		
+		Break;
+	case “When”:
+		factoidType = getDateTime;
+		Break;
+	case “Where”:
+		factoidType = 	getPlace;
+		Break;	
+	case “How many”:
+		factoidType = getAmount;
+		Break;
+	case “How much”:
+		factoidType = getAmount;
+		Break;
+	default:
+    Write ("The question you have asked is invalid, please rephrase your question and ask again.");
+		Break;
+END SWITCH;
+
+END
 
