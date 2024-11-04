@@ -1,5 +1,5 @@
 Algorithm detemineFacoidType;
-Var sting firstWord, question, faactoidType;
+Var sting firstWord, question, factoidType;
 Var boolean done;
 
 BEGIN
@@ -8,43 +8,41 @@ i = 0;
 done = false;
 
 WHILE done == false; 
-firstWord[i] = firstWord + question[i];
-
-  IF firstWord[i] != ‘ ‘ AND firstWord != “How” THEN
-  	IF firstWord == “How” THEN
-  	firstWord = firstWord + question[i];
-  ELSE
-  	IF question[i] == ' ' AND firstWorld == "How" THEN
-	  	firstWord = firstWord + question[i];
-            		i = i +1;
-		  firstWord = firstWord + question[i];
-		END IF;
-	END IF;
-i = i +1;
-  IF question[i] == ‘ ‘ THEN
-	  done = true;
-  END IF;
+    firstWord[i] = firstWord + question[i];
+    IF firstWord[i] != ‘ ‘ AND firstWord != “How” THEN
+  	    firstWord = firstWord + question[i];
+    ELSE
+  	    IF question[i] == ' ' AND firstWorld == "How" THEN
+            firstWord = firstWord + question[i];
+            i = i +1;
+            firstWord = firstWord + question[i];
+	    END IF;
+    END IF;
+    IF question[i] == ‘ ‘ THEN
+	    done = true;
+    END IF;
+    i = i +1;
 END WHILE;
 
 
 SWITCH (firstWord) DO
 	case “Who”:
-		factoidType = getPerson;		
+		factoidType = "getPerson";		
 		Break;
 	case “When”:
-		factoidType = getDateTime;
+		factoidType = "getDateTime";
 		Break;
 	case “Where”:
-		factoidType = 	getPlace;
+		factoidType = "getPlace";
 		Break;	
 	case “How many”:
-		factoidType = getAmount;
+		factoidType = "getAmount";
 		Break;
 	case “How much”:
-		factoidType = getAmount;
+		factoidType = "getAmount";
 		Break;
 	default:
-    Write (“The question you have asked is invalid, please rephrase your question and ask again.”);
+        Write (“The question you have asked is invalid, please rephrase your question and ask again.”);
 		Break;
 END SWITCH;
 
