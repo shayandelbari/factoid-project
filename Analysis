@@ -1,0 +1,15 @@
+___Basic Menu___
+- switch/case menu:
+    - Ask a question (launch full program)
+    - Update Text (change the reference text string)
+    - Exit Program
+
+___Determine Factoid Type Module___
+- read first word of question, and adding characters to new string until ' '
+- if first word is "How" adds second word to firstWord string
+- switch/case assign factoidType as 
+    Who = "getPerson" 
+    When = "getDateTime" 
+    How many / much = "getAmount"
+    Where = "gePlace"
+
