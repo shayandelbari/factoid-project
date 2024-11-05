@@ -8,11 +8,7 @@
         Console.WriteLine(questionType);
     }
 
-    static void Another()
-    {
-        Console.WriteLine("Another");
-    }
-
+    // determining the type of question
     static string DetermineFactoidType(string question)
     {
         string firstWorld = "";
@@ -42,31 +38,31 @@
         switch (firstWorld)
         {
             case "Who":
-                answerType = "Person";
+                answerType = "getPerson";
                 break;
             case "Where":
-                answerType = "Location";
+                answerType = "getPlace";
                 break;
             case "When":
-                answerType = "Date Time";
+                answerType = "getDateTime";
                 break;
             case "How many":
-                answerType = "Number";
+                answerType = "getAmount";
                 break;
             case "How much":
-                answerType = "Number";
+                answerType = "getAmount";
                 break;
             default:
-                answerType = "Invalid Question";
+                answerType = "The question you have asked is invalid, please rephrase your question and ask again.";
                 break;
         }
 
         return answerType;
     }
 
-    static string removeStopWords(string question)
-    { //remove stop words from the question?
-
+    //remove stop words from the question
+    static string RemoveStopWords(string question)
+    {
         int i = 0;
         bool isStopWord = false;
         string[] stopWords = { "and", "is", "are", "the", "a", "was", "in", "on" };
@@ -83,7 +79,6 @@
 
             else if (question[i] == ' ')
             {
-                word = ""; //empty the word for nextround
                 for (int w = 0; w < stopWords.Length; w++)
                 {
                     if (word == stopWords[w])
@@ -96,10 +91,12 @@
                 {
                     questionWithoutStopWords += word;
                 }
+                word = ""; //empty the word for next round
             }
 
             i++;
         }
 
+        return questionWithoutStopWords;
     }
 }

@@ -1,50 +1,49 @@
-Algorithm detemineFacoidType;
-Var sting firstWord, question, factoidType;
+Algorithm determineFactoidType;
+Var string firstWord, question, factoidType;
 Var boolean done;
 
 BEGIN
-//assuming that question is already input
+// assuming that question is already input
 i = 0;
 done = false;
 
-WHILE done == false; 
+WHILE done == false DO
     firstWord[i] = firstWord + question[i];
-    IF firstWord[i] != ‘ ‘ AND firstWord != “How” THEN
+    IF firstWord[i] != ' ' AND firstWord != "How" THEN
   	    firstWord = firstWord + question[i];
     ELSE
   	    IF question[i] == ' ' AND firstWorld == "How" THEN
             firstWord = firstWord + question[i];
-            i = i +1;
+            i = i + 1;
             firstWord = firstWord + question[i];
 	    END IF;
     END IF;
-    IF question[i] == ‘ ‘ THEN
+    IF question[i] == ' ' THEN
 	    done = true;
     END IF;
-    i = i +1;
+    i = i + 1;
 END WHILE;
 
 
 SWITCH (firstWord) DO
-	case “Who”:
+	case "Who":
 		factoidType = "getPerson";		
 		Break;
-	case “When”:
+	case "When":
 		factoidType = "getDateTime";
 		Break;
-	case “Where”:
+	case "Where":
 		factoidType = "getPlace";
 		Break;	
-	case “How many”:
+	case "How many":
 		factoidType = "getAmount";
 		Break;
-	case “How much”:
+	case "How much":
 		factoidType = "getAmount";
 		Break;
 	default:
-        Write (“The question you have asked is invalid, please rephrase your question and ask again.”);
+        Write ("The question you have asked is invalid, please rephrase your question and ask again.");
 		Break;
 END SWITCH;
 
 END
-
