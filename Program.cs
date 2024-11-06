@@ -28,7 +28,7 @@
                 firstWorld += question[i + 1];
                 i++;
             }
-            else if (question[i] == ' ')
+            if (question[i] == ' ')
             {
                 done = true;
             }
