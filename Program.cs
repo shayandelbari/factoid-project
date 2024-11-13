@@ -7,7 +7,7 @@
         List<string> answer = GetPerson("Apple Inc. was founded by Steve Jobs and Steve Wozniak in CUPERTINO, CALIFORNIA, on 1976-04-01");
         foreach (string ans in answer)
         {
-            Console.WriteLine(ans);
+            Console.WriteLine($"{ans}");
         }
     }
 
@@ -69,7 +69,7 @@
         int i = 0;
         bool isStopWord = false;
         string[] stopWords = { "and", "is", "are", "the", "a", "was", "in", "on" };
-        string questionWithoutStopWords = " ";
+        string questionWithoutStopWords = "";
         string word = "";
 
         while (question[i] != '?')
@@ -104,7 +104,7 @@
 
     static List<string> GetPerson(string sentence)
     {
-        List<string> answer = new List<string>();
+        List<string> answer = [];
         bool found = false;
         string word = "";
 
@@ -114,7 +114,7 @@
             {
                 found = true;
             }
-            if (sentence[i] == ' ' && Char.IsLower(sentence[i + 1]))
+            else if (sentence[i] == ' ' && Char.IsLower(sentence[i + 1]))
             {
                 found = false;
                 answer.Add(word);
