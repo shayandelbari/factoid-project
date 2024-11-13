@@ -2,19 +2,25 @@
 {
     static void Main()
     {
+        // -------------TESTING CODES------------------------------------------
+
+        // TESTING: DetermineFactoidType
         // string questionType = DetermineFactoidType("Who was the");
         // Console.WriteLine(questionType);
+
+        // TESTING: GetPerson
         // List<string> answer = GetPerson("Apple Inc. was founded by Steve Jobs and Steve Wozniak in CUPERTINO, CALIFORNIA, on 1976-04-01");
         // foreach (string ans in answer)
         // {
         //     Console.WriteLine(ans);
         // }
+
+
+        // ------------PANEL CODES---------------------------------------------
+        // Console.WriteLine("Welcome to Shayan, Edward, and Brett's factoid answering program");
         int mainMenu;
         bool endProgram = false;
         string text;
-
-        //Console.WriteLine("Welcome to Shayan, Edward, and Brett's factoid answering program");
-
         do
         {
             Console.WriteLine("Main Menu");
@@ -63,8 +69,8 @@
         while (endProgram == false);
     }
 
-    // determining the type of question
     static string DetermineFactoidType(string question)
+    // determining the type of question
     {
         string firstWorld = "";
         string answerType = "";
@@ -115,8 +121,8 @@
         return answerType;
     }
 
-    //remove stop words from the question
     static string RemoveStopWords(string question)
+    //remove stop words from the question
     {
         int i = 0;
         bool isStopWord = false;
@@ -155,6 +161,7 @@
     }
 
     static List<string> GetPerson(string sentence)
+    // getting the persons name out of the given sentence
     {
         List<string> answer = [];
         bool found = false;
@@ -162,11 +169,12 @@
 
         for (int i = 0; i < sentence.Length; i++)
         {
+            // TODO: come up with a way to ignore none-name words that fit into these conditions
             if (Char.IsUpper(sentence[i]) && Char.IsLower(sentence[i + 1]))
             {
                 found = true;
             }
-            else if (sentence[i] == ' ' && Char.IsLower(sentence[i + 1]))
+            else if (sentence[i] == ' ' && Char.IsLower(sentence[i + 1]) && found)
             {
                 found = false;
                 answer.Add(word);
@@ -182,10 +190,11 @@
     }
 
     static int[] CalculateSimilarity(string question, string[] text)
+    // giving an array of percentage similarity between the question and the sentences in the same order of sentences
     {
         int similarityCounter = 0;
         int[] percentageSimilarityArray = new int[text.Length];
-        int lengthOfQuestions = question.Length; // OR LENGTH OF THE TEXT???????
+        int lengthOfQuestions = question.Length;
         string[] questionWords = Split(RemoveStopWords(question));
         List<string[]> sentenceWords = [];
         // TODO:Problem with the data type of text, the parameter in Split only accepts strings.
@@ -194,7 +203,6 @@
         {
             sentenceWords.Add(Split(text[i]));
         }
-
 
         // Check if each word of the sentence is in the entire array of strings of the question, then increment counter  
         for (int i = 0; i < sentenceWords.Count; i++)
@@ -210,7 +218,7 @@
                     }
                 }
             }
-            percentageSimilarityArray[i] = (similarityCounter / lengthOfQuestions) * 100;
+            percentageSimilarityArray[i] = similarityCounter / lengthOfQuestions * 100;
             similarityCounter = 0;
         }
 
@@ -219,6 +227,7 @@
 
     static string[] Split(string text, char character = ' ')
     {
+        // TODO: Implementing the possible problem: Ignoring the `.` in `Apple Inc.`
         string[] words = new string[51];
         string currentWord = "";
         int iterWords = 0;
@@ -241,7 +250,7 @@
             }
         }
 
-        return words; // We might return empty words if we have a fixed size array
+        return words; // TODO: We might return empty words if we have a fixed size array
     }
 
 }
