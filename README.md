@@ -60,6 +60,9 @@
 
 ---
 
+### Tasks to finish later
+- [ ] Update the explination section from case 3 in mainMenu (it is a placeholder for now).
+
 ## Functions suggested by the prof
 
 - [ ] **determineFactoidType**
