@@ -24,7 +24,7 @@
 
 ### Sentence Similarity Module
 
-- [] Write a pseudo-code algorithm for removing stop words.
+- [ ] Write a pseudo-code algorithm for removing stop words.
 - [x] Write a C# function for removing stop words.
 - [ ] Provide an analysis of how to calculate sentence similarity.
 - [ ] Write a pseudo-code algorithm for calculating sentence similarity.
@@ -61,7 +61,8 @@
 ---
 
 ### Tasks to finish later
-- [ ] Update the explination section from case 3 in mainMenu (it is a placeholder for now).
+
+- [ ] Update the explanation section from case 3 in mainMenu (it is a placeholder for now).
 
 ## Functions suggested by the prof
 
