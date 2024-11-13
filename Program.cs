@@ -4,11 +4,63 @@
     {
         // string questionType = DetermineFactoidType("Who was the");
         // Console.WriteLine(questionType);
-        List<string> answer = GetPerson("Apple Inc. was founded by Steve Jobs and Steve Wozniak in CUPERTINO, CALIFORNIA, on 1976-04-01");
-        foreach (string ans in answer)
+        // List<string> answer = GetPerson("Apple Inc. was founded by Steve Jobs and Steve Wozniak in CUPERTINO, CALIFORNIA, on 1976-04-01");
+        // foreach (string ans in answer)
+        // {
+        //     Console.WriteLine(ans);
+        // }
+        int mainMenu;
+        bool endProgram = false;
+        string text;
+
+        //Console.WriteLine("Welcome to Shayan, Edward, and Brett's factoid answering program");
+
+        do
         {
-            Console.WriteLine($"{ans}");
+            Console.WriteLine("Main Menu");
+            Console.WriteLine("Please enter the number corresponding with the option you wish to choose:");
+            Console.WriteLine("1. Update Reference Text");
+            Console.WriteLine("2. Ask a Question");
+            Console.WriteLine("3. Find out what type of questions I can ask");
+            Console.WriteLine("4. Exit Program");
+
+            mainMenu = Convert.ToInt32(Console.ReadLine());
+
+            switch (mainMenu)
+            {
+                case 1:
+                    //update reference text
+                    Console.WriteLine("Enter the text you would like to use as the reference. Afterwards, you can ask factoid questions based on that text");
+                    text = Console.ReadLine();
+                    //goto will allow the user to ask a question right away without going back to the menu, if we are not authorized to use this in the class, the user will need to take the extra step through the main menu.
+                    goto firstQuestion;
+                //break; is redundant here
+
+                case 2:
+                //run factoid program
+                firstQuestion:
+                    //firstQuestion label in the destination of the goto statement
+                    //this is the end of the main question asking module
+                    break;
+                case 3:
+                    //explanation on what types of questions the user can use
+                    Console.WriteLine("This is a placeholder for an explanation.");
+                    goto firstQuestion;
+                //user can ask their next question right away
+                //break; is redundant here unless we cannot use goto
+
+                case 4:
+                    //end program
+                    Console.WriteLine("Thank you for your patronage, come back anytime!");
+                    endProgram = true;
+                    break;
+
+                default:
+                    Console.WriteLine("You have entered an invalid option. You may input the number 1, 2, or 3");
+                    break;
+            }
         }
+        while (endProgram == false);
     }
 
     // determining the type of question
@@ -132,30 +184,34 @@
     static int[] CalculateSimilarity(string question, string[] text)
     {
         int similarityCounter = 0;
-        int[] percentageSimilarityArray = new int[100];
+        int[] percentageSimilarityArray = new int[text.Length];
         int lengthOfQuestions = question.Length; // OR LENGTH OF THE TEXT???????
         string[] questionWords = Split(RemoveStopWords(question));
-        string[] sentenceWords = Split(text); // TODO:Problem with the data type of text, the parameter in Split only accepts strings.
-
-        // Split(text[1]);
-        // Split(text[2]);
-        // Check if each word of the sentence is in the entire array of strings of the question, then increment counter  
-
+        List<string[]> sentenceWords = [];
+        // TODO:Problem with the data type of text, the parameter in Split only accepts strings.
 
         for (int i = 0; i < text.Length; i++)
         {
-            for (int u = 0; u < lengthOfQuestions; u++)
-            {
-                if (sentenceWords[i] == sentenceWords[u])
-                {
-                    similarityCounter++;
-                }
-            }
+            sentenceWords.Add(Split(text[i]));
         }
 
-        for (int i = 0; i < text.Length; i++)
+
+        // Check if each word of the sentence is in the entire array of strings of the question, then increment counter  
+        for (int i = 0; i < sentenceWords.Count; i++)
         {
-            percentageSimilarityArray[i] = (similarityCounter / lengthOfQuestions) * 100; // POSSIBLE CORRECTION???????
+            for (int j = 0; j < sentenceWords[i].Length; j++)
+            {
+                for (int u = 0; u < questionWords.Length; u++)
+                {
+                    if (sentenceWords[i][j] == questionWords[u])
+                    {
+                        similarityCounter++;
+                        break;
+                    }
+                }
+            }
+            percentageSimilarityArray[i] = (similarityCounter / lengthOfQuestions) * 100;
+            similarityCounter = 0;
         }
 
         return percentageSimilarityArray;
@@ -187,4 +243,5 @@
 
         return words; // We might return empty words if we have a fixed size array
     }
+
 }
