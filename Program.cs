@@ -128,5 +128,63 @@
 
         return answer;
     }
-}
 
+    static int[] CalculateSimilarity(string question, string[] text)
+    {
+        int similarityCounter = 0;
+        int[] percentageSimilarityArray = new int[100];
+        int lengthOfQuestions = question.Length; // OR LENGTH OF THE TEXT???????
+        string[] questionWords = Split(RemoveStopWords(question));
+        string[] sentenceWords = Split(text); // Problem with the data type of text, the parameter in Split only accepts strings.
+
+        // Split(text[1]);
+        // Split(text[2]);
+        // Check if each word of the sentence is in the entire array of strings of the question, then increment counter  
+
+
+        for (int i = 0; i < text.Length; i++)
+        {
+            for (int u = 0; u < lengthOfQuestions; u++)
+            {
+                if (sentenceWords[i] == sentenceWords[u])
+                {
+                    similarityCounter++;
+                }
+            }
+        }
+
+        for (int i = 0; i < text.Length; i++)
+        {
+            percentageSimilarityArray[i] = (similarityCounter / lengthOfQuestions) * 100; // POSSIBLE CORRECTION???????
+        }
+
+        return percentageSimilarityArray;
+    }
+
+    static string[] Split(string text, char character = ' ')
+    {
+        string[] words = new string[51];
+        string currentWord = "";
+        int iterWords = 0;
+
+        for (int i = 0; i < text.Length; i++)
+        {
+            if (text[i] == character)
+            {
+                words[iterWords] = currentWord;
+                iterWords++;
+                currentWord = "";
+            }
+            else if (i == text.Length - 1)
+            {
+                words[iterWords] = currentWord;
+            }
+            else
+            {
+                currentWord += text[i];
+            }
+        }
+
+        return words; // We might return empty words if we have a fixed size array
+    }
+}
