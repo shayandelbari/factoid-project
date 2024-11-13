@@ -1,11 +1,14 @@
 ﻿class Program
 {
-    static void Main(string[] arg)
+    static void Main()
     {
-        Console.WriteLine("Hello");
-        // Another();
-        string questionType = DetermineFactoidType("Who was the");
-        Console.WriteLine(questionType);
+        // string questionType = DetermineFactoidType("Who was the");
+        // Console.WriteLine(questionType);
+        List<string> answer = GetPerson("Apple Inc. was founded by Steve Jobs and Steve Wozniak in CUPERTINO, CALIFORNIA, on 1976-04-01");
+        foreach (string ans in answer)
+        {
+            Console.WriteLine(ans);
+        }
     }
 
     // determining the type of question
@@ -71,7 +74,6 @@
 
         while (question[i] != '?')
         {
-
             if (question[i] != ' ')
             {
                 word += question[i];
@@ -99,4 +101,32 @@
 
         return questionWithoutStopWords;
     }
+
+    static List<string> GetPerson(string sentence)
+    {
+        List<string> answer = new List<string>();
+        bool found = false;
+        string word = "";
+
+        for (int i = 0; i < sentence.Length; i++)
+        {
+            if (Char.IsUpper(sentence[i]) && Char.IsLower(sentence[i + 1]))
+            {
+                found = true;
+            }
+            if (sentence[i] == ' ' && Char.IsLower(sentence[i + 1]))
+            {
+                found = false;
+                answer.Add(word);
+                word = "";
+            }
+            if (found)
+            {
+                word += sentence[i];
+            }
+        }
+
+        return answer;
+    }
 }
+
