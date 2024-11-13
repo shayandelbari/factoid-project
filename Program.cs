@@ -135,7 +135,7 @@
         int[] percentageSimilarityArray = new int[100];
         int lengthOfQuestions = question.Length; // OR LENGTH OF THE TEXT???????
         string[] questionWords = Split(RemoveStopWords(question));
-        string[] sentenceWords = Split(text); // Problem with the data type of text, the parameter in Split only accepts strings.
+        string[] sentenceWords = Split(text); // TODO:Problem with the data type of text, the parameter in Split only accepts strings.
 
         // Split(text[1]);
         // Split(text[2]);
