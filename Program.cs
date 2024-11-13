@@ -4,11 +4,13 @@
     {
         // string questionType = DetermineFactoidType("Who was the");
         // Console.WriteLine(questionType);
-        List<string> answer = GetPerson("Apple Inc. was founded by Steve Jobs and Steve Wozniak in CUPERTINO, CALIFORNIA, on 1976-04-01");
-        foreach (string ans in answer)
-        {
-            Console.WriteLine(ans);
-        }
+        // List<string> answer = GetPerson("Apple Inc. was founded by Steve Jobs and Steve Wozniak in CUPERTINO, CALIFORNIA, on 1976-04-01");
+        // foreach (string ans in answer)
+        // {
+        //     Console.WriteLine(ans);
+        // }
+
+
     }
 
     // determining the type of question
@@ -132,30 +134,34 @@
     static int[] CalculateSimilarity(string question, string[] text)
     {
         int similarityCounter = 0;
-        int[] percentageSimilarityArray = new int[100];
+        int[] percentageSimilarityArray = new int[text.Length];
         int lengthOfQuestions = question.Length; // OR LENGTH OF THE TEXT???????
         string[] questionWords = Split(RemoveStopWords(question));
-        string[] sentenceWords = Split(text); // TODO:Problem with the data type of text, the parameter in Split only accepts strings.
-
-        // Split(text[1]);
-        // Split(text[2]);
-        // Check if each word of the sentence is in the entire array of strings of the question, then increment counter  
-
+        List<string[]> sentenceWords = [];
+        // TODO:Problem with the data type of text, the parameter in Split only accepts strings.
 
         for (int i = 0; i < text.Length; i++)
         {
-            for (int u = 0; u < lengthOfQuestions; u++)
-            {
-                if (sentenceWords[i] == sentenceWords[u])
-                {
-                    similarityCounter++;
-                }
-            }
+            sentenceWords.Add(Split(text[i]));
         }
 
-        for (int i = 0; i < text.Length; i++)
+
+        // Check if each word of the sentence is in the entire array of strings of the question, then increment counter  
+        for (int i = 0; i < sentenceWords.Count; i++)
         {
-            percentageSimilarityArray[i] = (similarityCounter / lengthOfQuestions) * 100; // POSSIBLE CORRECTION???????
+            for (int j = 0; j < sentenceWords[i].Length; j++)
+            {
+                for (int u = 0; u < questionWords.Length; u++)
+                {
+                    if (sentenceWords[i][j] == questionWords[u])
+                    {
+                        similarityCounter++;
+                        break;
+                    }
+                }
+            }
+            percentageSimilarityArray[i] = (similarityCounter / lengthOfQuestions) * 100;
+            similarityCounter = 0;
         }
 
         return percentageSimilarityArray;
