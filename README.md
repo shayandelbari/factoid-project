@@ -11,6 +11,15 @@
 
 ---
 
+## Some suggestions
+
+- Adding a one or two line comment for the functions so we know what the function is supposed to do
+- Renaming the value that is gonna be returned inside the function to `result` for debugging and understanding better
+- Splitting the `test` and the `panel` codes
+  - possible solution can be to have separate function for handling panel
+
+---
+
 ## Steps
 
 ### 1. Question Analysis Module

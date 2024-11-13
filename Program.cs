@@ -197,7 +197,6 @@
         int lengthOfQuestions = question.Length;
         string[] questionWords = Split(RemoveStopWords(question));
         List<string[]> sentenceWords = [];
-        // TODO:Problem with the data type of text, the parameter in Split only accepts strings.
 
         for (int i = 0; i < text.Length; i++)
         {
