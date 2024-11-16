@@ -45,6 +45,7 @@
                 case 2:
                 //run factoid program
                 firstQuestion:
+                    // where we will code the program to ask the question using all below Fns
                     //firstQuestion label in the destination of the goto statement
                     //this is the end of the main question asking module
                     break;
@@ -73,7 +74,6 @@
     // determining the type of question
     {
         string firstWorld = "";
-        string answerType = "";
         bool done = false;
         int i = 0;
 
@@ -96,29 +96,16 @@
             i++;
         }
 
-        switch (firstWorld)
+        string result = firstWorld switch
         {
-            case "Who":
-                answerType = "getPerson";
-                break;
-            case "Where":
-                answerType = "getPlace";
-                break;
-            case "When":
-                answerType = "getDateTime";
-                break;
-            case "How many":
-                answerType = "getAmount";
-                break;
-            case "How much":
-                answerType = "getAmount";
-                break;
-            default:
-                answerType = "The question you have asked is invalid, please rephrase your question and ask again.";
-                break;
-        }
-
-        return answerType;
+            "Who" => "GetPerson",
+            "Where" => "GetPlace",
+            "When" => "GetDateTime",
+            "How many" => "GetAmount",
+            "How much" => "GetAmount",
+            _ => "The question you have asked is invalid, please rephrase your question and ask again.",
+        };
+        return result;
     }
 
     static string RemoveStopWords(string question)
@@ -160,7 +147,7 @@
         return questionWithoutStopWords;
     }
 
-    static List<string> GetPerson(string sentence)
+    static List<string> GetPerson(string sentence) // FIXME: change
     // getting the persons name out of the given sentence
     {
         List<string> answer = [];
@@ -189,7 +176,7 @@
         return answer;
     }
 
-    static int[] CalculateSimilarity(string question, string[] text)
+    static int[] CalculateSimilarity(string question, string[] text) // FIXME: change this
     // giving an array of percentage similarity between the question and the sentences in the same order of sentences
     {
         int similarityCounter = 0;
@@ -224,9 +211,10 @@
         return percentageSimilarityArray;
     }
 
-    static string[] Split(string text, char character = ' ')
+    static string[] Split(string text, char character = ' ') // ???? it depends  // out sentenceSize
     {
         // TODO: Implementing the possible problem: Ignoring the `.` in `Apple Inc.`
+        // TODO: considering [".", "?", "!"] as end of a sentence `object character = ' '`
         string[] words = new string[51];
         string currentWord = "";
         int iterWords = 0;
@@ -248,6 +236,7 @@
                 currentWord += text[i];
             }
         }
+        // sentencesize = iterWords;
 
         return words; // TODO: We might return empty words if we have a fixed size array
     }
