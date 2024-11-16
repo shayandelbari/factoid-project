@@ -1,5 +1,6 @@
 ﻿class Program
 {
+    //**TODO Change ALL dynamic datatypes to static. This may require looping through to find the length then iter-ing based on that value.
     static void Main()
     {
         // -------------TESTING CODES------------------------------------------
@@ -21,6 +22,7 @@
         int mainMenu;
         bool endProgram = false;
         string text;
+        int badQuestion = 0;
         do
         {
             Console.WriteLine("Main Menu");
@@ -36,38 +38,72 @@
             {
                 case 1:
                     //update reference text
-                    Console.WriteLine("Enter the text you would like to use as the reference. Afterwards, you can ask factoid questions based on that text");
-                    text = Console.ReadLine();
-                    //goto will allow the user to ask a question right away without going back to the menu, if we are not authorized to use this in the class, the user will need to take the extra step through the main menu.
-                    goto firstQuestion;
-                //break; is redundant here
-
+                    updateTextFn;
+                    break;
                 case 2:
-                //run factoid program
-                firstQuestion:
-                    // where we will code the program to ask the question using all below Fns
-                    //firstQuestion label in the destination of the goto statement
-                    //this is the end of the main question asking module
+                    //run factoid program
+                    askQuestionFn;
                     break;
                 case 3:
                     //explanation on what types of questions the user can use
-                    Console.WriteLine("This is a placeholder for an explanation.");
-                    goto firstQuestion;
-                //user can ask their next question right away
-                //break; is redundant here unless we cannot use goto
-
+                    explinationFn;
+                    break;
                 case 4:
                     //end program
                     Console.WriteLine("Thank you for your patronage, come back anytime!");
                     endProgram = true;
                     break;
-
                 default:
-                    Console.WriteLine("You have entered an invalid option. You may input the number 1, 2, or 3");
+                    Console.WriteLine("You have entered an invalid option. You may input the number 1, 2, 3 or 4");
                     break;
             }
         }
         while (endProgram == false);
+    }
+
+    static void updateTextFn()
+    //input reference text & split it to arrays of words within arrays of sentences
+    {
+        Console.WriteLine("Enter the text you would like to use as the reference. Afterwards, you can ask factoid questions based on that text");
+        text = Console.ReadLine();
+        // **TODO run split on text x2 (once to split sentences once to split words) - end result should be many arrays in an array
+        askQuestionFn;
+    }
+
+    static void askQuestionFn()
+    // Fn to take a question get an answer
+    {
+        if (text == '')
+        //if text is blank, ask for text now
+        {
+            Console.WriteLine("It appears that there is no reference text to review for an answer, let's input that first");
+            updateTextFn;
+        }
+
+        Console.WriteLine("Ask a factoid question:")
+         string question = Console.ReadLine();
+        //**TODO:
+        // run split on question (or later depending on how our other Fns work)
+        // run determineFactoidType
+        // run removeStopWord on question
+        // run CalculateSimularityModule
+        // print the sentence with the highest simularity as the answer
+    }
+
+    static void explinationFn()
+    //explination Fn
+    {
+        Console.WriteLine("This program is designed to work with factoid questions. We wanted to share what that means so you can get the best out of the program.");
+        Console.WriteLine("A factoid question is a closed-ended question based on one of these question words:");
+        Console.WriteLine("- WHO");
+        Console.WriteLine("- WHERE");
+        Console.WriteLine("- WHEN");
+        Console.WriteLine("- HOW MANY");
+        Console.WriteLine("- HOW MUCH");
+        Console.WriteLine("");
+        Console.WriteLine("Please ensure you phrase your question so it STARTS with one of the previous question words:");
+        badQuestion = 0;
+        askQuestionFn;
     }
 
     static string DetermineFactoidType(string question)
@@ -98,18 +134,37 @@
 
         string result = firstWorld switch
         {
-            "Who" => "GetPerson",
-            "Where" => "GetPlace",
-            "When" => "GetDateTime",
-            "How many" => "GetAmount",
-            "How much" => "GetAmount",
-            _ => "The question you have asked is invalid, please rephrase your question and ask again.",
-        };
-        return result;
+            case "Who":
+                answerType = "getPerson";
+                break;
+            case "Where":
+            answerType = "getPlace";
+            break;
+        case "When":
+            answerType = "getDateTime";
+            break;
+        case "How many":
+            answerType = "getAmount";
+            break;
+        case "How much":
+            answerType = "getAmount";
+            break;
+        default:
+            answerType = "The question you have asked is invalid, please rephrase your question and ask again";
+            badQuestion++;
+            if (badQuestion >= 3)
+            {
+                explinationFn;
+            }
+            askQuestionFn;
+            break;
+        }
+
+        return answerType;
     }
 
     static string RemoveStopWords(string question)
-    //remove stop words from the question
+    //remove stop words from the question - this will have less iters as it is the shorter string, and will allow us to simply print the sentence that corresponds to the answer w/o any additional formatting
     {
         int i = 0;
         bool isStopWord = false;
@@ -240,5 +295,4 @@
 
         return words; // TODO: We might return empty words if we have a fixed size array
     }
-
 }
