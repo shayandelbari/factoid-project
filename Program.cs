@@ -21,6 +21,7 @@
         int mainMenu;
         bool endProgram = false;
         string text;
+        int badQuestion = 0;
         do
         {
             Console.WriteLine("Main Menu");
@@ -45,13 +46,37 @@
                 case 2:
                 //run factoid program
                 firstQuestion:
-                    //firstQuestion label in the destination of the goto statement
-                    //this is the end of the main question asking module
+                //firstQuestion label in the destination of the goto statement
+                    if (text == '')
+                    //if text is blank, ask for text now
+                    {
+                      Console.WriteLine("It appears that there is no reference text to review for an answer, please add that now:");
+                      text = console.ReadLine();  
+                    }
+                                        
+                    Console.WriteLine("Please ask a factoid question")
+                    string question = Console.ReadLine();
+                    // run determineFacoidType
+                    // run removeStopWord on question
+                    // run CalculateSimularityModule
+                    // run getAnswer module
+                    // run compileAnswer module & print answer
+
                     break;
                 case 3:
                     //explanation on what types of questions the user can use
-                    Console.WriteLine("This is a placeholder for an explanation.");
-                    goto firstQuestion;
+                   explination:
+                   Console.WriteLine("This program is designed to work with factoid questions. We wanted to share what that means so you can get the best out of the program.");
+                   Console.WriteLine("A factoid question is a closed-ended question based on one of these question words:");
+                   Console.WriteLine("- WHO");
+                   Console.WriteLine("- WHERE");
+                   Console.WriteLine("- WHEN");
+                   Console.WriteLine("- HOW MANY");
+                   Console.WriteLine("- HOW MUCH");
+                   Console.WriteLine("");
+                   Console.WriteLine("Please rephrase your question so it STARTS with one of the previous question words:");
+                   badQuestion = 0;
+                   goto firstQuestion;
                 //user can ask their next question right away
                 //break; is redundant here unless we cannot use goto
 
@@ -115,6 +140,11 @@
                 break;
             default:
                 answerType = "The question you have asked is invalid, please rephrase your question and ask again.";
+                badQuestion++;
+                if (badQestion >= 3)
+                {
+                    goto explination;
+                }
                 break;
         }
 
