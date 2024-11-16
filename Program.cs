@@ -80,13 +80,12 @@
                                         
         Console.WriteLine("Ask a factoid question:")
         string question = Console.ReadLine();
-        //**TODO
+        //**TODO:
         // run split on question (or later depending on how our Fns work)
         // run determineFacoidType
         // run removeStopWord on question
         // run CalculateSimularityModule
-        // run getAnswer module
-        // run compileAnswer module & print answer
+        // print the sentence with the highest simularity as the answer
     }
    
    static void explinationFn()
@@ -163,7 +162,7 @@
     }
 
     static string RemoveStopWords(string question)
-    //remove stop words from the question
+    //remove stop words from the question - this will have less iters as it is the shorter string, and will allow us to simply print the sentence that corresponds to the answer w/o any additional formatting
     {
         int i = 0;
         bool isStopWord = false;
