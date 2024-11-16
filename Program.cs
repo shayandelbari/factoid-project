@@ -151,10 +151,11 @@
             default:
                 answerType = "The question you have asked is invalid, please rephrase your question and ask again";
                 badQuestion++;
-                if (badQestion >= 3)
+                if (badQuestion >= 3)
                 {
                     explinationFn;
                 }
+                askQuestionFn;
                 break;
         }
 
