@@ -1,5 +1,6 @@
 ﻿class Program
 {
+    //**TODO Change ALL dynamic datatypes to static. This may require looping through to find the length then iter-ing based on that value.
     static void Main()
     {
         // -------------TESTING CODES------------------------------------------
@@ -61,10 +62,11 @@
     }
 
    static void updateTextFn()
+   //input reference text & split it to arrays of words within arrays of sentences
    {
     Console.WriteLine("Enter the text you would like to use as the reference. Afterwards, you can ask factoid questions based on that text");
     text = Console.ReadLine();
-    // **TODO run split on text x2 (once to split sentences once to split words) - end result should be an many arrays in an array
+    // **TODO run split on text x2 (once to split sentences once to split words) - end result should be many arrays in an array
     askQuestionFn;
    }
 
@@ -81,8 +83,8 @@
         Console.WriteLine("Ask a factoid question:")
         string question = Console.ReadLine();
         //**TODO:
-        // run split on question (or later depending on how our Fns work)
-        // run determineFacoidType
+        // run split on question (or later depending on how our other Fns work)
+        // run determineFactoidType
         // run removeStopWord on question
         // run CalculateSimularityModule
         // print the sentence with the highest simularity as the answer
