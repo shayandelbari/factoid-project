@@ -36,63 +36,74 @@
             switch (mainMenu)
             {
                 case 1:
-                    //update reference text
-                    Console.WriteLine("Enter the text you would like to use as the reference. Afterwards, you can ask factoid questions based on that text");
-                    text = Console.ReadLine();
-                    //goto will allow the user to ask a question right away without going back to the menu, if we are not authorized to use this in the class, the user will need to take the extra step through the main menu.
-                    goto firstQuestion;
-                //break; is redundant here
-
+                //update reference text
+                    updateTextFn;
+                    break;
                 case 2:
                 //run factoid program
-                firstQuestion:
-                //firstQuestion label in the destination of the goto statement
-                    if (text == '')
-                    //if text is blank, ask for text now
-                    {
-                      Console.WriteLine("It appears that there is no reference text to review for an answer, please add that now:");
-                      text = console.ReadLine();  
-                    }
-                                        
-                    Console.WriteLine("Please ask a factoid question")
-                    string question = Console.ReadLine();
-                    // run determineFacoidType
-                    // run removeStopWord on question
-                    // run CalculateSimularityModule
-                    // run getAnswer module
-                    // run compileAnswer module & print answer
-
+                    askQuestionFn;
                     break;
                 case 3:
-                    //explanation on what types of questions the user can use
-                   explination:
-                   Console.WriteLine("This program is designed to work with factoid questions. We wanted to share what that means so you can get the best out of the program.");
-                   Console.WriteLine("A factoid question is a closed-ended question based on one of these question words:");
-                   Console.WriteLine("- WHO");
-                   Console.WriteLine("- WHERE");
-                   Console.WriteLine("- WHEN");
-                   Console.WriteLine("- HOW MANY");
-                   Console.WriteLine("- HOW MUCH");
-                   Console.WriteLine("");
-                   Console.WriteLine("Please rephrase your question so it STARTS with one of the previous question words:");
-                   badQuestion = 0;
-                   goto firstQuestion;
-                //user can ask their next question right away
-                //break; is redundant here unless we cannot use goto
-
+                //explanation on what types of questions the user can use
+                    explinationFn;
+                    break;
                 case 4:
-                    //end program
+                //end program
                     Console.WriteLine("Thank you for your patronage, come back anytime!");
                     endProgram = true;
                     break;
-
                 default:
-                    Console.WriteLine("You have entered an invalid option. You may input the number 1, 2, or 3");
+                    Console.WriteLine("You have entered an invalid option. You may input the number 1, 2, 3 or 4");
                     break;
             }
         }
         while (endProgram == false);
     }
+
+   static void updateTextFn()
+   {
+    Console.WriteLine("Enter the text you would like to use as the reference. Afterwards, you can ask factoid questions based on that text");
+    text = Console.ReadLine();
+    // **TODO run split on text x2 (once to split sentences once to split words) - end result should be an many arrays in an array
+    askQuestionFn;
+   }
+
+   static void askQuestionFn()
+    // Fn to take a question get an answer
+    {
+        if (text == '')
+        //if text is blank, ask for text now
+        {
+          Console.WriteLine("It appears that there is no reference text to review for an answer, let's input that first");
+          updateTextFn; 
+        }
+                                        
+        Console.WriteLine("Ask a factoid question:")
+        string question = Console.ReadLine();
+        //**TODO
+        // run split on question (or later depending on how our Fns work)
+        // run determineFacoidType
+        // run removeStopWord on question
+        // run CalculateSimularityModule
+        // run getAnswer module
+        // run compileAnswer module & print answer
+    }
+   
+   static void explinationFn()
+   //explination Fn
+   {
+    Console.WriteLine("This program is designed to work with factoid questions. We wanted to share what that means so you can get the best out of the program.");
+    Console.WriteLine("A factoid question is a closed-ended question based on one of these question words:");
+    Console.WriteLine("- WHO");
+    Console.WriteLine("- WHERE");
+    Console.WriteLine("- WHEN");
+    Console.WriteLine("- HOW MANY");
+    Console.WriteLine("- HOW MUCH");
+    Console.WriteLine("");
+    Console.WriteLine("Please ensure you phrase your question so it STARTS with one of the previous question words:");
+    badQuestion = 0;  
+    askQuestionFn; 
+   }
 
     static string DetermineFactoidType(string question)
     // determining the type of question
@@ -139,11 +150,11 @@
                 answerType = "getAmount";
                 break;
             default:
-                answerType = "The question you have asked is invalid, please rephrase your question and ask again.";
+                answerType = "The question you have asked is invalid, please rephrase your question and ask again";
                 badQuestion++;
                 if (badQestion >= 3)
                 {
-                    goto explination;
+                    explinationFn;
                 }
                 break;
         }
@@ -281,5 +292,4 @@
 
         return words; // TODO: We might return empty words if we have a fixed size array
     }
-
 }
