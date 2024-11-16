@@ -1,6 +1,7 @@
 ﻿class Program
 {
-    //**TODO Change ALL dynamic datatypes to static. This may require looping through to find the length then iter-ing based on that value.
+    //TODO: Change ALL dynamic data types to static. This may require looping through to find the length then iter-ing based on that value.
+    //FIXME: main panel still not done!
     static void Main()
     {
         // -------------TESTING CODES------------------------------------------
@@ -21,7 +22,7 @@
         // Console.WriteLine("Welcome to Shayan, Edward, and Brett's factoid answering program");
         int mainMenu;
         bool endProgram = false;
-        string text;
+        string text = "";
         int badQuestion = 0;
         do
         {
@@ -38,15 +39,15 @@
             {
                 case 1:
                     //update reference text
-                    updateTextFn;
+                    updateTextFn(ref text);
                     break;
                 case 2:
                     //run factoid program
-                    askQuestionFn;
+                    askQuestionFn(ref text);
                     break;
                 case 3:
                     //explanation on what types of questions the user can use
-                    explinationFn;
+                    explanationFn(ref badQuestion, ref text);
                     break;
                 case 4:
                     //end program
@@ -61,37 +62,37 @@
         while (endProgram == false);
     }
 
-    static void updateTextFn()
+    static void updateTextFn(ref string text)
     //input reference text & split it to arrays of words within arrays of sentences
     {
         Console.WriteLine("Enter the text you would like to use as the reference. Afterwards, you can ask factoid questions based on that text");
         text = Console.ReadLine();
         // **TODO run split on text x2 (once to split sentences once to split words) - end result should be many arrays in an array
-        askQuestionFn;
+        askQuestionFn(ref text);
     }
 
-    static void askQuestionFn()
+    static void askQuestionFn(ref string text)
     // Fn to take a question get an answer
     {
-        if (text == '')
+        if (text == "")
         //if text is blank, ask for text now
         {
             Console.WriteLine("It appears that there is no reference text to review for an answer, let's input that first");
-            updateTextFn;
+            updateTextFn(ref text);
         }
 
-        Console.WriteLine("Ask a factoid question:")
-         string question = Console.ReadLine();
+        Console.WriteLine("Ask a factoid question:");
+        string question = Console.ReadLine();
         //**TODO:
         // run split on question (or later depending on how our other Fns work)
         // run determineFactoidType
         // run removeStopWord on question
-        // run CalculateSimularityModule
-        // print the sentence with the highest simularity as the answer
+        // run CalculateSimilarityModule
+        // print the sentence with the highest similarity as the answer
     }
 
-    static void explinationFn()
-    //explination Fn
+    static void explanationFn(ref int badQuestion, ref string text)
+    //explanation Fn
     {
         Console.WriteLine("This program is designed to work with factoid questions. We wanted to share what that means so you can get the best out of the program.");
         Console.WriteLine("A factoid question is a closed-ended question based on one of these question words:");
@@ -100,17 +101,18 @@
         Console.WriteLine("- WHEN");
         Console.WriteLine("- HOW MANY");
         Console.WriteLine("- HOW MUCH");
-        Console.WriteLine("");
+        Console.WriteLine();
         Console.WriteLine("Please ensure you phrase your question so it STARTS with one of the previous question words:");
         badQuestion = 0;
-        askQuestionFn;
+        askQuestionFn(ref text);
     }
 
-    static string DetermineFactoidType(string question)
+    static string DetermineFactoidType(string question, ref int badQuestion)
     // determining the type of question
     {
         string firstWorld = "";
         bool done = false;
+        string answerType;
         int i = 0;
 
         while (!done)
@@ -132,32 +134,31 @@
             i++;
         }
 
-        string result = firstWorld switch
+        switch (firstWorld)
         {
             case "Who":
                 answerType = "getPerson";
                 break;
             case "Where":
-            answerType = "getPlace";
-            break;
-        case "When":
-            answerType = "getDateTime";
-            break;
-        case "How many":
-            answerType = "getAmount";
-            break;
-        case "How much":
-            answerType = "getAmount";
-            break;
-        default:
-            answerType = "The question you have asked is invalid, please rephrase your question and ask again";
-            badQuestion++;
-            if (badQuestion >= 3)
-            {
-                explinationFn;
-            }
-            askQuestionFn;
-            break;
+                answerType = "getPlace";
+                break;
+            case "When":
+                answerType = "getDateTime";
+                break;
+            case "How many":
+                answerType = "getAmount";
+                break;
+            case "How much":
+                answerType = "getAmount";
+                break;
+            default:
+                answerType = "The question you have asked is invalid, please rephrase your question and ask again";
+                badQuestion++;
+                if (badQuestion >= 3)
+                {
+                    return "explanationFn";
+                }
+                break;
         }
 
         return answerType;
