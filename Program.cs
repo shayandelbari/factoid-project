@@ -77,7 +77,7 @@
         if (text == "")
         //if text is blank, ask for text now
         {
-            Console.WriteLine("It appears that there is no reference text to review for an answer, let's input that first");
+            Console.WriteLine("It appears that there is no reference text yet, let's input that first");
             updateTextFn(ref text);
         }
 
@@ -88,7 +88,7 @@
         // run determineFactoidType
         // run removeStopWord on question
         // run CalculateSimilarityModule
-        // print the sentence with the highest similarity as the answer
+        // run printAnswerFn
     }
 
     static void explanationFn(ref int badQuestion, ref string text)
@@ -213,6 +213,7 @@
         for (int i = 0; i < sentence.Length; i++)
         {
             // TODO: come up with a way to ignore none-name words that fit into these conditions
+            // If a none-name word comes up, do we need to worry about it? The similarityCheckingModule will let us know what is the most simular and we can print that whole sentence as the asnwer to the factoid question. 
             if (Char.IsUpper(sentence[i]) && Char.IsLower(sentence[i + 1]))
             {
                 found = true;
@@ -295,5 +296,14 @@
         // sentencesize = iterWords;
 
         return words; // TODO: We might return empty words if we have a fixed size array
+    }
+
+    // ** TODO :
+    static void printAnswerFn(/*ref percentageSimilarityArray, ref getAnswerType, ref text, ref question*/)
+    {
+        //Take the sentence with the highest simularity
+        //Ensure that it has the right answer type in the sentence
+        //if not, error message (ask user to rephrase question), or maybe check next highest % sentence
+        //  else Print answer
     }
 }
