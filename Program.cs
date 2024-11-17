@@ -281,6 +281,7 @@ class Program
         if (character is char || character is null) size = 1;
         else if (character is string c) size = c.Length;
         else if (character is char[] c1) size = c1.Length;
+        else return [];
 
         char[] separators = new char[size];
         for (int i = 0; i < size; i++)
