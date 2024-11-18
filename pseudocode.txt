@@ -1,7 +1,24 @@
-Algorithm determineFactoidType;
-Var string firstWord, question, factoidType;
-Var boolean done;
+TODO:
+-[ ] mainMenu:
+	-[ ] updateTextFn
+	-[ ] askQuestionFn
+	-[ ] explinationFn
+-[x] determineFactoidType
+-[ ] removeStopWords
+-[ ] Split
+-[ ] CalculateSimularity
+-[ ] GetPerson
+-[ ] GetLocation
+-[ ] GetDateTime
+-[ ] GetAmount
+-[ ] printAnswerFn
 
+
+
+Function determineFactoidType;
+Var string firstWord, question, answerType;
+Var boolean done;
+//TODO add comments inline
 BEGIN
 // assuming that question is already input
 i = 0;
@@ -23,27 +40,32 @@ WHILE done == false DO
     END IF;
     i = i + 1;
 END WHILE;
-
-
 SWITCH (firstWord) DO
 	case "Who":
-		factoidType = "getPerson";		
+		answerType = "getPerson";		
 		Break;
 	case "When":
-		factoidType = "getDateTime";
+		answerType = "getDateTime";
 		Break;
 	case "Where":
-		factoidType = "getPlace";
+		answerType = "getPlace";
 		Break;	
 	case "How many":
-		factoidType = "getAmount";
+		answerType = "getAmount";
 		Break;
 	case "How much":
-		factoidType = "getAmount";
+		answerType = "getAmount";
 		Break;
 	default:
         Write ("The question you have asked is invalid, please rephrase your question and ask again.");
-		Break;
+	badQuestion = badQuestion +1;
+	IF (badQuestion >= 3) THEN
+		explinationFn;
+	END IF;
+	Break;
 END SWITCH;
-
+return answerType;
 END
+
+
+
