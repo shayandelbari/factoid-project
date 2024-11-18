@@ -6,6 +6,18 @@
 
 class Program
 {
+
+    // add landing page
+    // add update Txt fn before mainMenu
+    // default state is to ask question and get answer UNLESS guide, exit, updateText
+
+    //ASK QUESTION (default loop):
+    // get input -> get factoid type (handeling bad question here) -> split to sentences -> remove stop words -> get answer
+
+    // ELSES: exit, update, guide
+
+
+
     //TODO: Change ALL dynamic data types to static. This may require looping through to find the length then iter-ing based on that value.
     //FIXME: main panel still not done!
     static void Main()
@@ -97,7 +109,7 @@ class Program
         // run printAnswerFn
     }
 
-    static void ExplanationFn(ref int badQuestion, ref string text)
+    static void ExplanationFn()
     //explanation Fn
     {
         Console.WriteLine("This program is designed to work with factoid questions. We wanted to share what that means so you can get the best out of the program.");
@@ -109,8 +121,8 @@ class Program
         Console.WriteLine("- HOW MUCH");
         Console.WriteLine();
         Console.WriteLine("Please ensure you phrase your question so it STARTS with one of the previous question words:");
-        badQuestion = 0;
-        AskQuestionFn(ref text);
+        // badQuestion = 0;
+        //AskQuestionFn(ref text);
     }
 
     static string DetermineFactoidType(string question, ref int badQuestion)
@@ -158,7 +170,8 @@ class Program
                 answerType = "getAmount";
                 break;
             default:
-                answerType = "The question you have asked is invalid, please rephrase your question and ask again";
+                answerType = "bad";
+                Console.WriteLine("The question you have asked is invalid, please rephrase your question and ask again");
                 // TODO: this should be better
                 badQuestion++;
                 if (badQuestion >= 3)
