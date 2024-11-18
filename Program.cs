@@ -1,4 +1,10 @@
-﻿class Program
+﻿public struct Array
+{
+    public string[] array;
+    public int length;
+}
+
+class Program
 {
     //TODO: Change ALL dynamic data types to static. This may require looping through to find the length then iter-ing based on that value.
     //FIXME: main panel still not done!
@@ -39,15 +45,15 @@
             {
                 case 1:
                     //update reference text
-                    updateTextFn(ref text);
+                    UpdateTextFn(ref text);
                     break;
                 case 2:
                     //run factoid program
-                    askQuestionFn(ref text);
+                    AskQuestionFn(ref text);
                     break;
                 case 3:
                     //explanation on what types of questions the user can use
-                    explanationFn(ref badQuestion, ref text);
+                    ExplanationFn(ref badQuestion, ref text);
                     break;
                 case 4:
                     //end program
@@ -62,28 +68,28 @@
         while (endProgram == false);
     }
 
-    static void updateTextFn(ref string text)
+    static void UpdateTextFn(ref string text)
     //input reference text & split it to arrays of words within arrays of sentences
     {
         Console.WriteLine("Enter the text you would like to use as the reference. Afterwards, you can ask factoid questions based on that text");
         text = Console.ReadLine();
-        // **TODO run split on text x2 (once to split sentences once to split words) - end result should be many arrays in an array
-        askQuestionFn(ref text);
+        // TODO: run split on text x2 (once to split sentences once to split words) - end result should be many arrays in an array
+        AskQuestionFn(ref text);
     }
 
-    static void askQuestionFn(ref string text)
+    static void AskQuestionFn(ref string text)
     // Fn to take a question get an answer
     {
         if (text == "")
         //if text is blank, ask for text now
         {
-            Console.WriteLine("It appears that there is no reference text yet, let's input that first");
-            updateTextFn(ref text);
+            Console.WriteLine("It appears that there is no reference text to review for an answer, let's input that first");
+            UpdateTextFn(ref text);
         }
 
         Console.WriteLine("Ask a factoid question:");
         string question = Console.ReadLine();
-        //**TODO:
+        //TODO:
         // run split on question (or later depending on how our other Fns work)
         // run determineFactoidType
         // run removeStopWord on question
@@ -91,7 +97,7 @@
         // run printAnswerFn
     }
 
-    static void explanationFn(ref int badQuestion, ref string text)
+    static void ExplanationFn(ref int badQuestion, ref string text)
     //explanation Fn
     {
         Console.WriteLine("This program is designed to work with factoid questions. We wanted to share what that means so you can get the best out of the program.");
@@ -104,7 +110,7 @@
         Console.WriteLine();
         Console.WriteLine("Please ensure you phrase your question so it STARTS with one of the previous question words:");
         badQuestion = 0;
-        askQuestionFn(ref text);
+        AskQuestionFn(ref text);
     }
 
     static string DetermineFactoidType(string question, ref int badQuestion)
@@ -153,6 +159,7 @@
                 break;
             default:
                 answerType = "The question you have asked is invalid, please rephrase your question and ask again";
+                // TODO: this should be better
                 badQuestion++;
                 if (badQuestion >= 3)
                 {
@@ -203,10 +210,11 @@
         return questionWithoutStopWords;
     }
 
-    static List<string> GetPerson(string sentence) // FIXME: change
+    static string[] GetPerson(string sentence)
     // getting the persons name out of the given sentence
     {
-        List<string> answer = [];
+        string[] result = new string[10];
+        int size = 0;
         bool found = false;
         string word = "";
 
@@ -221,7 +229,8 @@
             else if (sentence[i] == ' ' && Char.IsLower(sentence[i + 1]) && found)
             {
                 found = false;
-                answer.Add(word);
+                result[size] = word;
+                size++;
                 word = "";
             }
             if (found)
@@ -229,8 +238,9 @@
                 word += sentence[i];
             }
         }
+        int endIndex = size;
 
-        return answer;
+        return result[0..endIndex];
     }
 
     static int[] CalculateSimilarity(string question, string[] text) // FIXME: change this
@@ -268,34 +278,90 @@
         return percentageSimilarityArray;
     }
 
-    static string[] Split(string text, char character = ' ') // ???? it depends  // out sentenceSize
+    static string[] Split(string text, object? character = null)
     {
+        //this part is for converting the object type to an array of characters
+        int size = 0;
+        if (character is char || character is null) size = 1;
+        else if (character is string c) size = c.Length;
+        else if (character is char[] c1) size = c1.Length;
+        else return [];
+
+        char[] separators = new char[size];
+        for (int i = 0; i < size; i++)
+        {
+            if (character is char || character is null) separators[i] = character is null ? ' ' : (char)character;
+            else if (character is string c) separators[i] = c[i];
+            else if (character is char[] c1) separators[i] = c1[i];
+        }
+
         // TODO: Implementing the possible problem: Ignoring the `.` in `Apple Inc.`
-        // TODO: considering [".", "?", "!"] as end of a sentence `object character = ' '`
-        string[] words = new string[51];
+        Array result;
+        result.array = new string[50];
+        result.length = 0;
         string currentWord = "";
-        int iterWords = 0;
+        bool found = false;
 
         for (int i = 0; i < text.Length; i++)
         {
-            if (text[i] == character)
+            for (int j = 0; j < separators.Length; j++)
             {
-                words[iterWords] = currentWord;
-                iterWords++;
-                currentWord = "";
+                if (text[i] == separators[j])
+                {
+                    found = true;
+                    break;
+                }
             }
-            else if (i == text.Length - 1)
+            if (found || i == text.Length - 1)
             {
-                words[iterWords] = currentWord;
+                result.array[i] = currentWord;
+                result.length++;
+                found = false;
+                currentWord = "";
             }
             else
             {
                 currentWord += text[i];
             }
         }
-        // sentencesize = iterWords;
+        int endIndex = result.length - 1;
 
-        return words; // TODO: We might return empty words if we have a fixed size array
+        return result.array[0..endIndex];
+    }
+
+    static string Replace(string text, string target, string replacement)
+    // this function will be used for replacing the words like `Inc.` with `Inc`
+    {
+        string result = "";
+        bool found = false;
+
+        for (int i = 0; i < text.Length; i++)
+        {
+            if (text[i] == target[0])
+            {
+                for (int j = 0; j < target.Length; j++)
+                {
+                    if (text[i + j] != target[j])
+                    {
+                        found = false;
+                        break;
+                    }
+                    found = true;
+                }
+            }
+            if (found)
+            {
+                result += replacement;
+                i += target.Length - 1;
+                found = false;
+            }
+            else
+            {
+                result += text[i];
+            }
+        }
+
+        return result;
     }
 
     // ** TODO :
