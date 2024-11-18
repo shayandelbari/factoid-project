@@ -65,7 +65,7 @@ class Program
                     break;
                 case 3:
                     //explanation on what types of questions the user can use
-                    ExplanationFn(ref badQuestion, ref text);
+                    ExplanationFn();
                     break;
                 case 4:
                     //end program
@@ -121,16 +121,13 @@ class Program
         Console.WriteLine("- HOW MUCH");
         Console.WriteLine();
         Console.WriteLine("Please ensure you phrase your question so it STARTS with one of the previous question words:");
-        // badQuestion = 0;
-        //AskQuestionFn(ref text);
     }
 
-    static string DetermineFactoidType(string question, ref int badQuestion)
+    static string DetermineFactoidType(string question)
     // determining the type of question
     {
         string firstWorld = "";
         bool done = false;
-        string answerType;
         int i = 0;
 
         while (!done)
@@ -152,35 +149,15 @@ class Program
             i++;
         }
 
-        switch (firstWorld)
+        string answerType = firstWorld switch
         {
-            case "Who":
-                answerType = "getPerson";
-                break;
-            case "Where":
-                answerType = "getPlace";
-                break;
-            case "When":
-                answerType = "getDateTime";
-                break;
-            case "How many":
-                answerType = "getAmount";
-                break;
-            case "How much":
-                answerType = "getAmount";
-                break;
-            default:
-                answerType = "bad";
-                Console.WriteLine("The question you have asked is invalid, please rephrase your question and ask again");
-                // TODO: this should be better
-                badQuestion++;
-                if (badQuestion >= 3)
-                {
-                    return "explanationFn";
-                }
-                break;
-        }
-
+            "Who" => "getPerson",
+            "Where" => "getPlace",
+            "When" => "getDateTime",
+            "How many" => "getAmount",
+            "How much" => "getAmount",
+            _ => "bad",
+        };
         return answerType;
     }
 
