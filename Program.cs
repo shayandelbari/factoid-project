@@ -176,10 +176,11 @@ class Program
                 Console.WriteLine("- HOW MUCH");
                 Console.WriteLine();
                 Console.WriteLine("Please ensure you phrase your question so it STARTS with one of the previous question words:");
-
+                // badQuestion = 0;
+                //AskQuestionFn(ref text);
             }
 
-            static string DetermineFactoidType(string question)
+            static string DetermineFactoidType(string question, ref int badQuestion)
             // determining the type of question
             {
                 string firstWorld = "";
@@ -225,6 +226,13 @@ class Program
                         break;
                     default:
                         answerType = "bad";
+                        Console.WriteLine("The question you have asked is invalid, please rephrase your question and ask again");
+                        // TODO: this should be better
+                        badQuestion++;
+                        if (badQuestion >= 3)
+                        {
+                            return "explanationFn";
+                        }
                         break;
                 }
 
@@ -433,5 +441,5 @@ class Program
                 //  else Print answer
             }
         }
-    }
+}
 }
