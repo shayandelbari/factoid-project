@@ -210,10 +210,11 @@ class Program
         return questionWithoutStopWords;
     }
 
-    static List<string> GetPerson(string sentence) // FIXME: change
+    static string[] GetPerson(string sentence)
     // getting the persons name out of the given sentence
     {
-        List<string> answer = [];
+        string[] result = new string[10];
+        int size = 0;
         bool found = false;
         string word = "";
 
@@ -227,7 +228,8 @@ class Program
             else if (sentence[i] == ' ' && Char.IsLower(sentence[i + 1]) && found)
             {
                 found = false;
-                answer.Add(word);
+                result[size] = word;
+                size++;
                 word = "";
             }
             if (found)
@@ -235,8 +237,9 @@ class Program
                 word += sentence[i];
             }
         }
+        int endIndex = size;
 
-        return answer;
+        return result[0..endIndex];
     }
 
     static int[] CalculateSimilarity(string question, string[] text) // FIXME: change this
@@ -245,12 +248,12 @@ class Program
         int similarityCounter = 0;
         int[] percentageSimilarityArray = new int[text.Length];
         int lengthOfQuestions = question.Length;
-        string[] questionWords = Split(RemoveStopWords(question)); // FIXME: implement a better way to handel the result
+        string[] questionWords = Split(RemoveStopWords(question));
         List<string[]> sentenceWords = [];
 
         for (int i = 0; i < text.Length; i++)
         {
-            sentenceWords.Add(Split(text[i])); // FIXME: implement a better way to handel the result
+            sentenceWords.Add(Split(text[i]));
         }
 
         // Check if each word of the sentence is in the entire array of strings of the question, then increment counter  
@@ -323,5 +326,40 @@ class Program
         int endIndex = result.length - 1;
 
         return result.array[0..endIndex];
+    }
+
+    static string Replace(string text, string target, string replacement)
+    // this function will be used for replacing the words like `Inc.` with `Inc`
+    {
+        string result = "";
+        bool found = false;
+
+        for (int i = 0; i < text.Length; i++)
+        {
+            if (text[i] == target[0])
+            {
+                for (int j = 0; j < target.Length; j++)
+                {
+                    if (text[i + j] != target[j])
+                    {
+                        found = false;
+                        break;
+                    }
+                    found = true;
+                }
+            }
+            if (found)
+            {
+                result += replacement;
+                i += target.Length - 1;
+                found = false;
+            }
+            else
+            {
+                result += text[i];
+            }
+        }
+
+        return result;
     }
 }
