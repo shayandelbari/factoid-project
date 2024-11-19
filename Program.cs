@@ -205,7 +205,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
             return questionWithoutStopWords;
         }
 
-        static string[] GetPerson(string sentence)
+        static string[]? GetPerson(string sentence)
         // getting the persons name out of the given sentence
         {
             string[] result = new string[10];
@@ -233,12 +233,15 @@ Please ensure you phrase your question so it STARTS with one of the previous que
                     word += sentence[i];
                 }
             }
-            int endIndex = size - 1;
+            if (size == 0)
+            {
+                return null;
+            }
 
-            return result[0..endIndex];
+            return result[0..size];
         }
 
-        static string[] GetLocation(string sentence)
+        static string[]? GetLocation(string sentence)
         {
             string[] result = new string[10];
             int size = 0;
@@ -263,8 +266,12 @@ Please ensure you phrase your question so it STARTS with one of the previous que
                     word = "";
                 }
             }
+            if (size == 0)
+            {
+                return null;
+            }
 
-            return result;
+            return result[0..size];
         }
 
         static int[] CalculateSimilarity(string question, string[] text) // FIXME: change this
@@ -402,7 +409,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
             {
                 if (text[0] == listUpper[j])
                 {
-                    text[0] = listLower[j]; //FIXME: this is not working
+                    text = Replace(text, text[0], listLower[j]); //FIXME: this is not working
                     break;
                 }
             }
