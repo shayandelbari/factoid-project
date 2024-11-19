@@ -369,7 +369,7 @@ class Program
         }
 
         // ** TODO :
-        static void printAnswerFn(/*ref percentageSimilarityArray, ref getAnswerType, ref text, ref question*/)
+        static void printAnswerFn()
         {
             //Take the sentence with the highest simularity
             //Ensure that it has the right answer type in the sentence
