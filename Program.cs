@@ -264,6 +264,37 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         }
         return result[0..size];
     }
+
+    static string[]? GetDateTime(string sentence)
+    {
+        string[] output = new string[10];
+        int size = 0;
+        int endDateIndex = 0;
+
+        for (int i = 0; i < sentence.Length; i++)
+        {
+            if (Char.IsNumber(sentence[i]) && sentence[i + 4] == '-' && sentence[i + 7] == '-')
+            {
+                endDateIndex = i + 10;
+                output[size] = sentence[i..endDateIndex];
+                size++;
+                i += 10;
+            }
+            else if (Char.IsNumber(sentence[i]) && (sentence[i + 3] == ' ' || sentence[i + 4] == '.'))
+            {
+                endDateIndex = i + 4;
+                output[size] = sentence[i..endDateIndex];
+                size++;
+                i += 4;
+            }
+        }
+        if (size == 0)
+        {
+            return null;
+        }
+        return output[0..size];
+    }
+
     static int[] CalculateSimilarity(string question, string[] text) // FIXME: change this
                                                                      // giving an array of percentage similarity between the question and the sentences in the same order of sentences
     {
