@@ -326,7 +326,6 @@ Please ensure you phrase your question so it STARTS with one of the previous que
                 else if (character is char[] c1) separators[i] = c1[i];
             }
 
-            // TODO: Implementing the possible problem: Ignoring the `.` in `Apple Inc.`
             Array result;
             result.array = new string[50];
             result.length = 0;
@@ -419,12 +418,100 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         }
 
         // ** TODO :
-        static void printAnswerFn()
+        static string[]? GetAnswer(string questionType, string[] text, int[] similarity)
         {
             //Take the sentence with the highest simularity
             //Ensure that it has the right answer type in the sentence
             //if not, error message (ask user to rephrase question), or maybe check next highest % sentence
             //  else Print answer
+            string[]? result = [];
+
+            int maxIndex = HighestIndex(similarity);
+            int sentenceTimes = 3;
+
+            for (int i = 0; i < sentenceTimes; i++)
+            {
+                if (questionType == "getPerson")
+                {
+                    result = GetPerson(text[maxIndex]);
+
+                    if (result != null)
+                    {
+                        return result;
+                    }
+                    else
+                    {
+                        similarity[maxIndex] = 0;
+                        maxIndex = HighestIndex(similarity);
+                        continue;
+                    }
+                }
+                else if (questionType == "getPlace")
+                {
+                    result = GetLocation(text[maxIndex]);
+
+                    if (result != null)
+                    {
+                        return result;
+                    }
+                    else
+                    {
+                        similarity[maxIndex] = 0;
+                        maxIndex = HighestIndex(similarity);
+                        continue;
+                    }
+                }
+                else if (questionType == "getDateTime")
+                {
+                    // result = GetDateTime(text[maxIndex]);
+
+                    // if (result != null)
+                    // {
+                    //     return result;
+                    // }
+                    // else
+                    // {
+                    //     similarity[maxIndex] = 0;
+                    //     maxIndex = HighestIndex(similarity);
+                    //     continue;
+                    // }
+                }
+                else if (questionType == "getAmount")
+                {
+                    // result = GetAmount(text[maxIndex]);
+
+                    // if (result != null)
+                    // {
+                    //     return result;
+                    // }
+                    // else
+                    // {
+                    //     similarity[maxIndex] = 0;
+                    //     maxIndex = HighestIndex(similarity);
+                    //     continue;
+                    // }
+                }
+
+                return null;
+            }
+
+
+            return result;
+        }
+
+        static int HighestIndex(int[] array)
+        {
+            int maxIndex = 0;
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (array[i] > array[maxIndex])
+                {
+                    maxIndex = i;
+                }
+            }
+
+            return maxIndex;
         }
 
     }
