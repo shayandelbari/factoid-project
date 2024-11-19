@@ -83,44 +83,26 @@ class Program
     static void UpdateTextFn(ref string text)
     //input reference text & split it to arrays of words within arrays of sentences
     {
+        Console.Clear();
         Console.WriteLine("Enter the text you would like to use as the reference. Afterwards, you can ask factoid questions based on that text");
         text = Console.ReadLine();
-        // TODO: run split on text x2 (once to split sentences once to split words) - end result should be many arrays in an array
-        AskQuestionFn(ref text);
-    }
-
-    static void AskQuestionFn(ref string text)
-    // Fn to take a question get an answer
-    {
-        if (text == "")
-        //if text is blank, ask for text now
-        {
-            Console.WriteLine("It appears that there is no reference text to review for an answer, let's input that first");
-            UpdateTextFn(ref text);
-        }
-
-        Console.WriteLine("Ask a factoid question:");
-        string question = Console.ReadLine();
-        //TODO:
-        // run split on question (or later depending on how our other Fns work)
-        // run determineFactoidType
-        // run removeStopWord on question
-        // run CalculateSimilarityModule
-        // run printAnswerFn
     }
 
     static void ExplanationFn()
     //explanation Fn
     {
-        Console.WriteLine("This program is designed to work with factoid questions. We wanted to share what that means so you can get the best out of the program.");
-        Console.WriteLine("A factoid question is a closed-ended question based on one of these question words:");
-        Console.WriteLine("- WHO");
-        Console.WriteLine("- WHERE");
-        Console.WriteLine("- WHEN");
-        Console.WriteLine("- HOW MANY");
-        Console.WriteLine("- HOW MUCH");
-        Console.WriteLine();
-        Console.WriteLine("Please ensure you phrase your question so it STARTS with one of the previous question words:");
+        string guide = @"This program is designed to work with factoid questions. We wanted to share what that means so you can get the best out of the program.
+A factoid question is a closed-ended question based on one of these question words:
+- WHO
+- WHERE
+- WHEN
+- HOW MANY
+- HOW MUCH
+
+Please ensure you phrase your question so it STARTS with one of the previous question words:";
+
+        Console.Clear();
+        Console.WriteLine(guide);
     }
 
     static string DetermineFactoidType(string question)
@@ -228,9 +210,38 @@ class Program
                 word += sentence[i];
             }
         }
-        int endIndex = size;
+        int endIndex = size - 1;
 
         return result[0..endIndex];
+    }
+
+    static string[] GetLocation(string sentence)
+    {
+        string[] result = new string[10];
+        int size = 0;
+        bool found = false;
+        string word = "";
+
+        for (int i = 0; i < sentence.Length; i++)
+        {
+            if (!found && Char.IsUpper(sentence[i]) && Char.IsUpper(sentence[i + 1]))
+            {
+                found = true;
+            }
+            if (found)
+            {
+                word += sentence[i];
+            }
+            else if (sentence[i] == ' ')
+            {
+                found = false;
+                result[size] = word;
+                size++;
+                word = "";
+            }
+        }
+
+        return result;
     }
 
     static int[] CalculateSimilarity(string question, string[] text) // FIXME: change this

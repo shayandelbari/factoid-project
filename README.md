@@ -75,19 +75,19 @@
 
 ## Functions suggested by the prof
 
-- [ ] **determineFactoidType**
+- [x] **determineFactoidType**
 
   - Analyzes the question to identify the type of expected answer (e.g., name, date, location).
 
-- [ ] **removeStopWords**
+- [x] **removeStopWords**
 
   - Removes common, irrelevant words from the text to streamline question and sentence processing.
 
-- [ ] **calculateSimilarity**
+- [x] **calculateSimilarity**
 
   - Computes lexical similarity between the question and sentences in the text by measuring word overlap.
 
-- [ ] **getPersonName**
+- [x] **getPersonName**
 
   - Extracts names based on the rule that names typically start with an uppercase letter followed by lowercase letters.
 
