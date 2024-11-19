@@ -484,18 +484,18 @@ Please ensure you phrase your question so it STARTS with one of the previous que
             }
             else if (questionType == "getDateTime")
             {
-                // result = GetDateTime(text[maxIndex]);
+                result = GetDateTime(text[maxIndex]);
 
-                // if (result != null)
-                // {
-                //     return result;
-                // }
-                // else
-                // {
-                //     similarity[maxIndex] = 0;
-                //     maxIndex = HighestIndex(similarity);
-                //     continue;
-                // }
+                if (result != null)
+                {
+                    return result;
+                }
+                else
+                {
+                    similarity[maxIndex] = 0;
+                    maxIndex = HighestIndex(similarity);
+                    continue;
+                }
             }
             else if (questionType == "getAmount")
             {
