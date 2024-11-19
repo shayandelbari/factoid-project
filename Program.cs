@@ -84,12 +84,13 @@ class Program
                 //replace w Shayan's getAnswerFN
 
                 {
-                    string questionWithoutStop = RemoveStopWords(question);
+                    string answerType = DetermineFactoidType(question);
                     text = Replace(text, "Inc.", "inc");
                     string[] textAsSentences = Split(text, "?!.");
                     int[] percentageSimilar = CalculateSimilarity(questionWithoutStop, textAsSentences);
 
                     //TODO - replace w Shayan's getAnswerFN
+                    // IF GetAnswer == null, ask to reask question
 
                 }
 
@@ -259,7 +260,6 @@ Please ensure you phrase your question so it STARTS with one of the previous que
 
                 return result;
             }
-
             static int[] CalculateSimilarity(string question, string[] text) // FIXME: change this
                                                                              // giving an array of percentage similarity between the question and the sentences in the same order of sentences
             {
@@ -412,6 +412,6 @@ Please ensure you phrase your question so it STARTS with one of the previous que
                 //if not, error message (ask user to rephrase question), or maybe check next highest % sentence
                 //  else Print answer
             }
-
         }
+    }
 }
