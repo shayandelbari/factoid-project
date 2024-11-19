@@ -81,6 +81,7 @@ class Program
                 // this is where we actually answer the question
                 {
                     string questionWithoutStop = RemoveStopWords(question);
+                    text = Replace(text, "Inc.", "inc");
                     int[] percentageSimilar = CalculateSimilarity(questionWithoutStop, Split(text, "?!."));
 
 
@@ -385,6 +386,29 @@ Please ensure you phrase your question so it STARTS with one of the previous que
             }
 
             return result;
+        }
+
+        string ToLower(ref string text)
+        {
+            char[] listUpper = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+                            'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+                            'U', 'V', 'W', 'X', 'Y', 'Z' };
+
+            char[] listLower = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+                            'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+                            'u', 'v', 'w', 'x', 'y', 'z' };
+
+            for (int j = 0; j < listUpper.Length; j++)
+            {
+                if (text[0] == listUpper[j])
+                {
+                    text[0] = listLower[j]; //FIXME: this is not working
+                    break;
+                }
+            }
+
+
+            return text;
         }
 
         // ** TODO :
