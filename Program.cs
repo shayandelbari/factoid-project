@@ -408,7 +408,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
             {
                 if (text[0] == listUpper[j])
                 {
-                    text = Replace(text, text[0], listLower[j]); //FIXME: this is not working
+                    // text = Replace(text, text[0], listLower[j]); //FIXME: this is not working
                     break;
                 }
             }
