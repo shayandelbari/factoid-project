@@ -41,15 +41,16 @@ class Program
 
 
         string question;
+        string text = "";
         int badQuestion = 0;
         bool endProgram = false;
         //default loop
         do
         {
             Console.WriteLine("ASK QUESTION:");
-            question = Console.ReadLine()
+            question = Console.ReadLine();
 
-                 if (question == "Exit")
+            if (question == "Exit")
             {
                 endProgram = true;
             }
@@ -60,7 +61,7 @@ class Program
             }
             else if (question == "Update Text")
             {
-                UpdateTextFn();
+                UpdateTextFn(ref text);
             }
             else
             {
@@ -80,7 +81,7 @@ class Program
                 // this is where we actually answer the question
                 {
                     string questionWithoutStop = RemoveStopWords(question);
-                    int[] percentageSimilar = CalculateSimilarity(string questionWithoutStop, string[] text);
+                    int[] percentageSimilar = CalculateSimilarity(questionWithoutStop, Split(text, "?!."));
 
 
                     //finding the most similar sentence
@@ -131,7 +132,6 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         {
             string firstWorld = "";
             bool done = false;
-            string answerType;
             int i = 0;
 
             while (!done)
@@ -153,28 +153,15 @@ Please ensure you phrase your question so it STARTS with one of the previous que
                 i++;
             }
 
-            switch (firstWorld)
+            string answerType = firstWorld switch
             {
-                case "Who":
-                    answerType = "getPerson";
-                    break;
-                case "Where":
-                    answerType = "getPlace";
-                    break;
-                case "When":
-                    answerType = "getDateTime";
-                    break;
-                case "How many":
-                    answerType = "getAmount";
-                    break;
-                case "How much":
-                    answerType = "getAmount";
-                    break;
-                default:
-                    answerType = "bad";
-                    break;
-            }
-
+                "Who" => "getPerson",
+                "Where" => "getPlace",
+                "When" => "getDateTime",
+                "How many" => "getAmount",
+                "How much" => "getAmount",
+                _ => "bad",
+            };
             return answerType;
         }
 
