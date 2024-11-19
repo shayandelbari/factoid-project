@@ -41,15 +41,16 @@ class Program
 
 
         string question;
+        string text = "";
         int badQuestion = 0;
         bool endProgram = false;
         //default loop
         do
         {
             Console.WriteLine("ASK QUESTION:");
-            question = Console.ReadLine()
+            question = Console.ReadLine();
 
-                 if (question == "Exit")
+            if (question == "Exit")
             {
                 endProgram = true;
             }
@@ -60,7 +61,7 @@ class Program
             }
             else if (question == "Update Text")
             {
-                UpdateTextFn();
+                UpdateTextFn(ref text);
             }
             else
             {
@@ -80,7 +81,7 @@ class Program
                 // this is where we actually answer the question
                 {
                     string questionWithoutStop = RemoveStopWords(question);
-                    int[] percentageSimilar = CalculateSimilarity(string questionWithoutStop, string[] text);
+                    int[] percentageSimilar = CalculateSimilarity(questionWithoutStop, Split(text, "?!."));
 
 
                     //finding the most similar sentence
@@ -104,23 +105,26 @@ class Program
         static void UpdateTextFn(ref string text)
         //input reference text & split it to arrays of words within arrays of sentences
         {
-            Console.WriteLine("Enter a reference text. Afterwards, you can ask factoid questions based on that text");
+            Console.Clear();
+            Console.WriteLine("Enter the text you would like to use as the reference. Afterwards, you can ask factoid questions based on that text");
             text = Console.ReadLine();
-            // TODO: run split on text x2 (once to split sentences once to split words) - end result should be many arrays in an array
         }
 
         static void ExplanationFn()
         //explanation Fn
         {
-            Console.WriteLine("This program is designed to work with factoid questions. We wanted to share what that means so you can get the best out of the program.");
-            Console.WriteLine("A factoid question is a closed-ended question based on one of these question words:");
-            Console.WriteLine("- WHO");
-            Console.WriteLine("- WHERE");
-            Console.WriteLine("- WHEN");
-            Console.WriteLine("- HOW MANY");
-            Console.WriteLine("- HOW MUCH");
-            Console.WriteLine();
-            Console.WriteLine("Please ensure you phrase your question so it STARTS with one of the previous question words:");
+            string guide = @"This program is designed to work with factoid questions. We wanted to share what that means so you can get the best out of the program.
+A factoid question is a closed-ended question based on one of these question words:
+- WHO
+- WHERE
+- WHEN
+- HOW MANY
+- HOW MUCH
+
+Please ensure you phrase your question so it STARTS with one of the previous question words:";
+
+            Console.Clear();
+            Console.WriteLine(guide);
         }
 
         static string DetermineFactoidType(string question)
@@ -128,7 +132,6 @@ class Program
         {
             string firstWorld = "";
             bool done = false;
-            string answerType;
             int i = 0;
 
             while (!done)
@@ -150,28 +153,15 @@ class Program
                 i++;
             }
 
-            switch (firstWorld)
+            string answerType = firstWorld switch
             {
-                case "Who":
-                    answerType = "getPerson";
-                    break;
-                case "Where":
-                    answerType = "getPlace";
-                    break;
-                case "When":
-                    answerType = "getDateTime";
-                    break;
-                case "How many":
-                    answerType = "getAmount";
-                    break;
-                case "How much":
-                    answerType = "getAmount";
-                    break;
-                default:
-                    answerType = "bad";
-                    break;
-            }
-
+                "Who" => "getPerson",
+                "Where" => "getPlace",
+                "When" => "getDateTime",
+                "How many" => "getAmount",
+                "How much" => "getAmount",
+                _ => "bad",
+            };
             return answerType;
         }
 
@@ -242,9 +232,38 @@ class Program
                     word += sentence[i];
                 }
             }
-            int endIndex = size;
+            int endIndex = size - 1;
 
             return result[0..endIndex];
+        }
+
+        static string[] GetLocation(string sentence)
+        {
+            string[] result = new string[10];
+            int size = 0;
+            bool found = false;
+            string word = "";
+
+            for (int i = 0; i < sentence.Length; i++)
+            {
+                if (!found && Char.IsUpper(sentence[i]) && Char.IsUpper(sentence[i + 1]))
+                {
+                    found = true;
+                }
+                if (found)
+                {
+                    word += sentence[i];
+                }
+                else if (sentence[i] == ' ')
+                {
+                    found = false;
+                    result[size] = word;
+                    size++;
+                    word = "";
+                }
+            }
+
+            return result;
         }
 
         static int[] CalculateSimilarity(string question, string[] text) // FIXME: change this
