@@ -412,7 +412,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         }
 
         // ** TODO :
-        static void printAnswerFn(/*ref percentageSimilarityArray, ref getAnswerType, ref text, ref question*/)
+        static void printAnswerFn()
         {
             //Take the sentence with the highest simularity
             //Ensure that it has the right answer type in the sentence
