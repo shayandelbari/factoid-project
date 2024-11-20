@@ -7,7 +7,7 @@
 class Program
 {
 
-    // add landing page
+    // TODO: add landing page
     // add update Txt fn before mainMenu
     // default state is to ask question and get answer UNLESS guide, exit, updateText
 
@@ -16,10 +16,6 @@ class Program
 
     // ELSES: exit, update, guide
 
-
-
-    //TODO: Change ALL dynamic data types to static. This may require looping through to find the length then iter-ing based on that value.
-    //FIXME: main panel still not done!
     static void Main()
     {
         // -------------TESTING CODES------------------------------------------
@@ -89,7 +85,7 @@ class Program
                     string[] textAsSentences = Split(text, "?!.");
                     int[] percentageSimilar = CalculateSimilarity(question, textAsSentences);
 
-                    //TODO - replace w Shayan's getAnswerFN
+                    //TODO: replace w Shayan's getAnswerFN
                     // IF GetAnswer == null, ask to reask question
 
                 }
@@ -210,8 +206,6 @@ Please ensure you phrase your question so it STARTS with one of the previous que
 
         for (int i = 0; i < sentence.Length; i++)
         {
-            // TODO: come up with a way to ignore none-name words that fit into these conditions
-            // If a none-name word comes up, do we need to worry about it? The similarityCheckingModule will let us know what is the most simular and we can print that whole sentence as the asnwer to the factoid question. 
             if (Char.IsUpper(sentence[i]) && Char.IsLower(sentence[i + 1]))
             {
                 found = true;
@@ -239,6 +233,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         bool found = false;
         string word = "";
 
+        //FIXME: this doesn't work for words like "NEW YORK"
         for (int i = 0; i < sentence.Length; i++)
         {
             if (!found && Char.IsUpper(sentence[i]) && Char.IsUpper(sentence[i + 1]))
@@ -295,14 +290,14 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         return output[0..size];
     }
 
-    static int[] CalculateSimilarity(string question, string[] text) // FIXME: change this
-                                                                     // giving an array of percentage similarity between the question and the sentences in the same order of sentences
+    static int[] CalculateSimilarity(string question, string[] text)
+    // giving an array of percentage similarity between the question and the sentences in the same order of sentences
     {
         int similarityCounter = 0;
         int[] percentageSimilarityArray = new int[text.Length];
         int lengthOfQuestions = question.Length;
         string[] questionWords = Split(RemoveStopWords(question));
-        List<string[]> sentenceWords = [];
+        List<string[]> sentenceWords = [];  // FIXME: change this to a static array
 
         for (int i = 0; i < text.Length; i++)
         {
@@ -441,10 +436,6 @@ Please ensure you phrase your question so it STARTS with one of the previous que
     // ** TODO :
     static string[]? GetAnswer(string questionType, string[] text, int[] similarity)
     {
-        //Take the sentence with the highest simularity
-        //Ensure that it has the right answer type in the sentence
-        //if not, error message (ask user to rephrase question), or maybe check next highest % sentence
-        //  else Print answer
         string[]? result = [];
 
         int maxIndex = HighestIndex(similarity);
