@@ -1,10 +1,4 @@
-﻿public struct Array
-{
-    public string[] array;
-    public int length;
-}
-
-class Program
+﻿class Program
 {
 
     // TODO: add landing page
@@ -210,7 +204,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
             {
                 found = true;
             }
-            else if (sentence[i] == ' ' && Char.IsLower(sentence[i + 1]) && found)
+            else if ((sentence[i] == ' ' || sentence[i] == '.') && Char.IsLower(sentence[i + 1]) && found)
             {
                 found = false;
                 result[size] = word;
@@ -233,7 +227,6 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         bool found = false;
         string word = "";
 
-        //FIXME: this doesn't work for words like "NEW YORK"
         for (int i = 0; i < sentence.Length; i++)
         {
             if (!found && Char.IsUpper(sentence[i]) && Char.IsUpper(sentence[i + 1]))
@@ -244,7 +237,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
             {
                 word += sentence[i];
             }
-            else if (sentence[i] == ' ')
+            else if ((sentence[i] == ' ' || sentence[i] == '.') && Char.IsLower(sentence[i + 1]) && found)
             {
                 found = false;
                 result[size] = word;
@@ -342,9 +335,8 @@ Please ensure you phrase your question so it STARTS with one of the previous que
             else if (character is char[] c1) separators[i] = c1[i];
         }
 
-        Array result;
-        result.array = new string[50];
-        result.length = 0;
+        string[] array = new string[50];
+        int length = 0;
         string currentWord = "";
         bool found = false;
 
@@ -360,8 +352,8 @@ Please ensure you phrase your question so it STARTS with one of the previous que
             }
             if (found || i == text.Length - 1)
             {
-                result.array[i] = currentWord;
-                result.length++;
+                array[i] = currentWord;
+                length++;
                 found = false;
                 currentWord = "";
             }
@@ -370,9 +362,8 @@ Please ensure you phrase your question so it STARTS with one of the previous que
                 currentWord += text[i];
             }
         }
-        int endIndex = result.length - 1;
 
-        return result.array[0..endIndex];
+        return array[0..length];
     }
 
     static string Replace(string text, string target, string replacement)
@@ -504,11 +495,9 @@ Please ensure you phrase your question so it STARTS with one of the previous que
                 // }
             }
 
-            return null;
         }
 
-
-        return result;
+        return null;
     }
 
     static int HighestIndex(int[] array)
@@ -525,6 +514,4 @@ Please ensure you phrase your question so it STARTS with one of the previous que
 
         return maxIndex;
     }
-
-
 }
