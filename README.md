@@ -69,10 +69,6 @@
 
 ---
 
-### Tasks to finish later
-
-- [ ] Update the explanation section from case 3 in mainMenu (it is a placeholder for now).
-
 ## Functions suggested by the prof
 
 - [x] **determineFactoidType**
@@ -91,11 +87,11 @@
 
   - Extracts names based on the rule that names typically start with an uppercase letter followed by lowercase letters.
 
-- [ ] **getLocation**
+- [x] **getLocation**
 
   - Identifies locations by scanning for words in all uppercase letters, indicating possible place names.
 
-- [ ] **getDateTime**
+- [x] **getDateTime**
 
   - Extracts date and time information by identifying specific formats (e.g., YYYY-MM-DD) within the text.
 
@@ -103,5 +99,5 @@
 
   - Identifies numeric values, such as monetary amounts and percentages, and returns them for answer extraction.
 
-- [ ] **extractAnswer**
+- [x] **extractAnswer**
   - Combines all entity extraction functions (getPersonName, getLocation, getDateTime, getNumber) to retrieve the most relevant answer from a sentence.

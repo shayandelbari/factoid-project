@@ -1,13 +1,7 @@
-﻿public struct Array
-{
-    public string[] array;
-    public int length;
-}
-
-class Program
+﻿class Program
 {
 
-    // add landing page
+    // TODO: add landing page
     // add update Txt fn before mainMenu
     // default state is to ask question and get answer UNLESS guide, exit, updateText
 
@@ -16,10 +10,6 @@ class Program
 
     // ELSES: exit, update, guide
 
-
-
-    //TODO: Change ALL dynamic data types to static. This may require looping through to find the length then iter-ing based on that value.
-    //FIXME: main panel still not done!
     static void Main()
     {
         // -------------TESTING CODES------------------------------------------
@@ -89,7 +79,7 @@ class Program
                     string[] textAsSentences = Split(text, "?!.");
                     int[] percentageSimilar = CalculateSimilarity(question, textAsSentences);
 
-                    //TODO - replace w Shayan's getAnswerFN
+                    //TODO: replace w Shayan's getAnswerFN
                     // IF GetAnswer == null, ask to reask question
 
                 }
@@ -210,13 +200,11 @@ Please ensure you phrase your question so it STARTS with one of the previous que
 
         for (int i = 0; i < sentence.Length; i++)
         {
-            // TODO: come up with a way to ignore none-name words that fit into these conditions
-            // If a none-name word comes up, do we need to worry about it? The similarityCheckingModule will let us know what is the most simular and we can print that whole sentence as the asnwer to the factoid question. 
             if (Char.IsUpper(sentence[i]) && Char.IsLower(sentence[i + 1]))
             {
                 found = true;
             }
-            else if (sentence[i] == ' ' && Char.IsLower(sentence[i + 1]) && found)
+            else if ((sentence[i] == ' ' || sentence[i] == '.') && Char.IsLower(sentence[i + 1]) && found)
             {
                 found = false;
                 result[size] = word;
@@ -249,7 +237,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
             {
                 word += sentence[i];
             }
-            else if (sentence[i] == ' ')
+            else if ((sentence[i] == ' ' || sentence[i] == '.') && Char.IsLower(sentence[i + 1]) && found)
             {
                 found = false;
                 result[size] = word;
@@ -264,14 +252,45 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         }
         return result[0..size];
     }
-    static int[] CalculateSimilarity(string question, string[] text) // FIXME: change this
+
+    static string[]? GetDateTime(string sentence)
+    {
+        string[] output = new string[10];
+        int size = 0;
+        int endDateIndex = 0;
+
+        for (int i = 0; i < sentence.Length; i++)
+        {
+            if (Char.IsNumber(sentence[i]) && sentence[i + 4] == '-' && sentence[i + 7] == '-')
+            {
+                endDateIndex = i + 10;
+                output[size] = sentence[i..endDateIndex];
+                size++;
+                i += 10;
+            }
+            else if (Char.IsNumber(sentence[i]) && (sentence[i + 3] == ' ' || sentence[i + 4] == '.'))
+            {
+                endDateIndex = i + 4;
+                output[size] = sentence[i..endDateIndex];
+                size++;
+                i += 4;
+            }
+        }
+        if (size == 0)
+        {
+            return null;
+        }
+        return output[0..size];
+    }
+
+    static int[] CalculateSimilarity(string question, string[] text)
     // giving an array of percentage similarity between the question and the sentences in the same order of sentences
     {
         int similarityCounter = 0;
         int[] percentageSimilarityArray = new int[text.Length];
         int lengthOfQuestions = question.Length;
         string[] questionWords = Split(RemoveStopWords(question));
-        List<string[]> sentenceWords = [];
+        List<string[]> sentenceWords = [];  // FIXME: change this to a static array
 
         for (int i = 0; i < text.Length; i++)
         {
@@ -316,9 +335,8 @@ Please ensure you phrase your question so it STARTS with one of the previous que
             else if (character is char[] c1) separators[i] = c1[i];
         }
 
-        Array result;
-        result.array = new string[50];
-        result.length = 0;
+        string[] array = new string[50];
+        int length = 0;
         string currentWord = "";
         bool found = false;
 
@@ -334,8 +352,8 @@ Please ensure you phrase your question so it STARTS with one of the previous que
             }
             if (found || i == text.Length - 1)
             {
-                result.array[i] = currentWord;
-                result.length++;
+                array[i] = currentWord;
+                length++;
                 found = false;
                 currentWord = "";
             }
@@ -345,7 +363,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
             }
         }
 
-        return result.array[0..size];
+        return array[0..length];
     }
 
     static string Replace(string text, string target, string replacement)
@@ -408,10 +426,6 @@ Please ensure you phrase your question so it STARTS with one of the previous que
     // ** TODO :
     static string[]? GetAnswer(string questionType, string[] text, int[] similarity)
     {
-        //Take the sentence with the highest simularity
-        //Ensure that it has the right answer type in the sentence
-        //if not, error message (ask user to rephrase question), or maybe check next highest % sentence
-        //  else Print answer
         string[]? result = [];
 
         int maxIndex = HighestIndex(similarity);
@@ -451,18 +465,18 @@ Please ensure you phrase your question so it STARTS with one of the previous que
             }
             else if (questionType == "getDateTime")
             {
-                // result = GetDateTime(text[maxIndex]);
+                result = GetDateTime(text[maxIndex]);
 
-                // if (result != null)
-                // {
-                //     return result;
-                // }
-                // else
-                // {
-                //     similarity[maxIndex] = 0;
-                //     maxIndex = HighestIndex(similarity);
-                //     continue;
-                // }
+                if (result != null)
+                {
+                    return result;
+                }
+                else
+                {
+                    similarity[maxIndex] = 0;
+                    maxIndex = HighestIndex(similarity);
+                    continue;
+                }
             }
             else if (questionType == "getAmount")
             {
@@ -480,11 +494,9 @@ Please ensure you phrase your question so it STARTS with one of the previous que
                 // }
             }
 
-            return null;
         }
 
-
-        return result;
+        return null;
     }
 
     static int HighestIndex(int[] array)
