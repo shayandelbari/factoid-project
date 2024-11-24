@@ -265,7 +265,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         return result[0..size];
     }
     static int[] CalculateSimilarity(string question, string[] text) // FIXME: change this
-                                                                     // giving an array of percentage similarity between the question and the sentences in the same order of sentences
+    // giving an array of percentage similarity between the question and the sentences in the same order of sentences
     {
         int similarityCounter = 0;
         int[] percentageSimilarityArray = new int[text.Length];
@@ -344,9 +344,8 @@ Please ensure you phrase your question so it STARTS with one of the previous que
                 currentWord += text[i];
             }
         }
-        int endIndex = result.length - 1;
 
-        return result.array[0..endIndex];
+        return result.array[0..size];
     }
 
     static string Replace(string text, string target, string replacement)
@@ -402,7 +401,6 @@ Please ensure you phrase your question so it STARTS with one of the previous que
                 break;
             }
         }
-
 
         return text;
     }
@@ -503,6 +501,4 @@ Please ensure you phrase your question so it STARTS with one of the previous que
 
         return maxIndex;
     }
-
-
 }
