@@ -283,6 +283,62 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         return output[0..size];
     }
 
+    // Have yet to test this, but will double check this weekend - Brett
+    static string[]? GetAmount(string sentence)
+    // TODO (review) - My thinking is, if the hasn't found DateTime, anything that is a number will be an amount, please lmk if the logic is bad, I'll fix this. 
+    {
+        string[] output = new string[10];
+        int size = 0;
+        bool found = false;
+        int start = 0;
+        int end = 0;
+
+        // find if there is a number
+        for (int i = 0; i == sentence.Length; i++)
+        {
+            // 
+            if (found == false && Char.IsNumber(sentence[i]) == true)
+            {
+                found = true;
+                start++;
+            }
+        }
+
+        // find the ' ' before the word with the number, set start = first char of word with number
+        if (found == true && sentence[start - 1] != ' ')
+        {
+            do
+            {
+                start--;
+            } while (sentence[start - 1] != ' ');
+
+        }
+        end = start;
+
+        // end == the ' ' after the number (or punctuation)
+        if (found == true && sentence[end] != ' ' || sentence[end] != '.' || sentence[end] != '!' || sentence[end] != '?')
+        {
+            while (sentence[end] != ' ' || sentence[end] != '.' || sentence[end] != '!' || sentence[end] != '?')
+            {
+                end++;
+            }
+
+        }
+
+        //even if the number is one digit long, end will be the digit after it, therefore if end - start == 0, or the if statements were not entered, Fn will return NULL
+        size = end - start;
+
+        if (size == 0)
+        {
+            return null;
+        }
+        return output[start..(end - 1)];
+
+        // at end if no result is found (size == 0), return null
+        // limitation, what if there are more than 2 words with numbers in the same sentence
+    }
+
+
     static int[] CalculateSimilarity(string question, string[] text)
     // giving an array of percentage similarity between the question and the sentences in the same order of sentences
     {
