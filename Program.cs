@@ -283,7 +283,8 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         return output[0..size];
     }
 
-    // Have yet to test this, but will double check this weekend - Brett
+    // TODO - if sentence[i +4] or sentence[i+7] > is outside the boundries of the array, we will run into issues. This will be a problem in GetAmount too as I borrowed his logic to make sure the number was not a DateTime
+
     static string[]? GetAmount(string sentence)
     // TODO (review) - My thinking is, if the hasn't found DateTime, anything that is a number will be an amount, please lmk if the logic is bad, I'll fix this. 
     {
@@ -292,20 +293,33 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         bool found = false;
         int start = 0;
         int end = 0;
+        int i = 0;
 
         // find if there is a number
-        for (int i = 0; i == sentence.Length; i++)
+        do
         {
-            // 
-            if (found == false && Char.IsNumber(sentence[i]) == true)
+            if (found == false
+                    && Char.IsNumber(sentence[i]) == true)
             {
                 found = true;
-                start++;
+                start = i;
+                // log the start location
             }
-        }
+            // confirm that it is not a DateTime, else make found = false
+            if (found == true && Char.IsNumber(sentence[i])
+                    && sentence[i + 4] == '-' && sentence[i + 7] == '-')
+            {
+                found = false;
+            }
+            i++;
+        } while (i < sentence.Length && !found);
+        // end loop if a number is found || get to the end of the sentence. 
 
         // find the ' ' before the word with the number, set start = first char of word with number
-        if (found == true && sentence[start - 1] != ' ')
+        // cant check the number before start if start == 0;
+        if (found == true
+                && sentence[start - 1] != ' '
+                || start == 0)
         {
             do
             {
@@ -315,10 +329,17 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         }
         end = start;
 
-        // end == the ' ' after the number (or punctuation)
-        if (found == true && sentence[end] != ' ' || sentence[end] != '.' || sentence[end] != '!' || sentence[end] != '?')
+        // make end == the ' ' after the number (or punctuation) ** when '.' is after a number, if there is another # immediatly after, continue
+        if (found == true
+                    && sentence[end] != ' '
+                    || (sentence[end] != '.' && !char.IsNumber(sentence[end + 1]))
+                    || sentence[end] != '!'
+                    || sentence[end] != '?')
         {
-            while (sentence[end] != ' ' || sentence[end] != '.' || sentence[end] != '!' || sentence[end] != '?')
+            while (sentence[end] != ' '
+                    && (sentence[end] != '.' && !char.IsNumber(sentence[end + 1]))
+                    && sentence[end] != '!'
+                    && sentence[end] != '?')
             {
                 end++;
             }
@@ -332,11 +353,15 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         {
             return null;
         }
-        return output[start..(end - 1)];
+        end--;
+        return output[start..end];
 
         // at end if no result is found (size == 0), return null
         // limitation, what if there are more than 2 words with numbers in the same sentence
     }
+
+    // limitation, the program cannot find the difference between a year and a four digit number. if both exist in the same sentence, it will return the one that shows up first to the factoid type that it is looking for.
+
 
 
     static int[] CalculateSimilarity(string question, string[] text)
@@ -426,6 +451,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         {
             for (int j = 0; j < separators.Length; j++)
             {
+                if (separators[j] == '.' && Char.IsNumber(text[i - 1]) && Char.IsNumber(text[i + 1])) continue;
                 if (text[i] == separators[j])
                 {
                     found = true;
@@ -485,6 +511,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
 
     string ToLower(ref string text)
     {
+        int i;
         char[] listUpper = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
                             'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
                             'U', 'V', 'W', 'X', 'Y', 'Z' };
@@ -493,16 +520,15 @@ Please ensure you phrase your question so it STARTS with one of the previous que
                             'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
                             'u', 'v', 'w', 'x', 'y', 'z' };
 
-        for (int j = 0; j < listUpper.Length; j++)
+        for (i = 0; i < listUpper.Length; i++)
         {
-            if (text[0] == listUpper[j])
+            if (text[0] == listUpper[i])
             {
-                // text[0] = listLower[j]; //FIXME: this is not working
                 break;
             }
         }
 
-        return text;
+        return Replace(text, Convert.ToString(text[0]), Convert.ToString(listLower[i]));
     }
 
     // ** TODO :
@@ -596,3 +622,5 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         return maxIndex;
     }
 }
+
+// TODO - do not remove the '.' if there the char IsNumber on both sides of the '.'
