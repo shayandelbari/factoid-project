@@ -400,6 +400,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         {
             for (int j = 0; j < separators.Length; j++)
             {
+                if (separators[j] == '.' && Char.IsNumber(text[i - 1]) && Char.IsNumber(text[i + 1])) continue;
                 if (text[i] == separators[j])
                 {
                     found = true;
