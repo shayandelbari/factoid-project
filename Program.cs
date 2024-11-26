@@ -459,6 +459,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
 
     string ToLower(ref string text)
     {
+        int i;
         char[] listUpper = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
                             'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
                             'U', 'V', 'W', 'X', 'Y', 'Z' };
@@ -467,16 +468,15 @@ Please ensure you phrase your question so it STARTS with one of the previous que
                             'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
                             'u', 'v', 'w', 'x', 'y', 'z' };
 
-        for (int j = 0; j < listUpper.Length; j++)
+        for (i = 0; i < listUpper.Length; i++)
         {
-            if (text[0] == listUpper[j])
+            if (text[0] == listUpper[i])
             {
-                // text[0] = listLower[j]; //FIXME: this is not working
                 break;
             }
         }
 
-        return text;
+        return Replace(text, Convert.ToString(text[0]), Convert.ToString(listLower[i]));
     }
 
     // ** TODO :
