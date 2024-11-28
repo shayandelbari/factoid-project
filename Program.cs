@@ -88,7 +88,7 @@
         } while (endProgram == false);
         //TODO end program text
         Console.Clear();
-        Console.WriteLine("placeholer");
+        Console.WriteLine("Thank you for your patronage, come back anytime!");
     }
 
     static void OtherKeywords()
