@@ -30,7 +30,7 @@
         // ------------PANEL CODES---------------------------------------------
         // Console.WriteLine("Welcome to Shayan, Edward, and Brett's factoid answering program", Console.Title);
 
-
+        LandingPage();
         string? question;
         string[] textArray = UpdateTextFn();
         int badQuestion = 0;
@@ -108,13 +108,10 @@
         Console.WriteLine("Shayan Delbari, Edward Angeles, and Brett Trudel are proud to present:");
         Console.WriteLine("🅣🅗🅔 🅕🅐🅒🅣🅞🅘🅓 🅐🅝🅢🅦🅔🅡🅘🅝🅖 🅟🅡🅞🅖🅡🅐🅜");
         Console.WriteLine("");
-
-        //TODO - make sure this is calling the right Fn, I think we changed the name(?)
-        text = UpdateText();
-
         Console.WriteLine("Factoid questions start with who, when, where, how many, or how much.");
         Console.WriteLine("");
-        OtherKeywords();
+        Console.WriteLine("Press any key to continue...");
+        Console.ReadLine();
     }
     static string[] UpdateTextFn()
     //input reference text & split it to arrays of words within arrays of sentences
