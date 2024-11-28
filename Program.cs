@@ -27,20 +27,21 @@
 
 
         // ------------PANEL CODES---------------------------------------------
-        // Console.WriteLine("Welcome to Shayan, Edward, and Brett's factoid answering program");
+        // Console.WriteLine("Welcome to Shayan, Edward, and Brett's factoid answering program", Console.Title);
 
 
-        string question;
+        string? question;
         string text = "";
         int badQuestion = 0;
         bool endProgram = false;
         //default loop
         do
         {
-            Console.WriteLine("ASK QUESTION:");
+            Console.Write("ASK QUESTION:");
             question = Console.ReadLine();
+            while (question is null) { Console.WriteLine("please ask a question"); question = Console.ReadLine(); }
 
-            if (question == "Exit")
+            if (question == "Exit" || question == "q" || question == "exit")
             {
                 endProgram = true;
             }
@@ -51,7 +52,7 @@
             }
             else if (question == "Update Text")
             {
-                UpdateTextFn(ref text);
+                text = UpdateTextFn();
             }
             else
             {
@@ -80,21 +81,29 @@
                     string[] textAsSentences = Split(text, "?!.");
                     int[] percentageSimilar = CalculateSimilarity(question, textAsSentences);
 
-                    //TODO: replace w Shayan's getAnswerFN
-                    // IF GetAnswer == null, ask to reask question
+                    string[]? answers = GetAnswer(answerType, textAsSentences, percentageSimilar);
 
+                    if (answers is null) Console.WriteLine("You're question didn't have any answers could you rephrase it?");
+                    else
+                    {
+                        foreach (string answer in answers)
+                        {
+                            Console.WriteLine(answer);
+                        }
+                    }
                 }
             }
 
         } while (endProgram == false);
     }
 
-    static void UpdateTextFn(ref string text)
-    //input reference text & split it to arrays of words within arrays of sentences
+    static string UpdateTextFn()
     {
         Console.Clear();
         Console.WriteLine("Enter the text you would like to use as the reference. Afterwards, you can ask factoid questions based on that text");
-        text = Console.ReadLine();
+        string? text = Console.ReadLine();
+        while (text is null) { Console.WriteLine("It seems you haven't entered any text. Pleas try that again."); text = Console.ReadLine(); }
+        return text;
     }
 
     static void ExplanationFn()
