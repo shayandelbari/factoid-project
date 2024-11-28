@@ -397,36 +397,62 @@ Please ensure you phrase your question so it STARTS with one of the previous que
     static int[] CalculateSimilarity(string question, string[] text)
     // giving an array of percentage similarity between the question and the sentences in the same order of sentences
     {
-        int similarityCounter = 0;
-        int[] percentageSimilarityArray = new int[text.Length];
-        int lengthOfQuestions = question.Length;
-        string[] questionWords = Split(RemoveStopWords(question));
-        List<string[]> sentenceWords = [];  // FIXME: change this to a static array
+        // int similarityCounter = 0;
+        // int[] percentageSimilarityArray = new int[text.Length];
+        // int lengthOfQuestions = question.Length;
+        // string[] questionWords = Split(RemoveStopWords(question));
+
+
+        // List<string[]> sentenceWords = [];  // FIXME: change this to a static array
+
+        // for (int i = 0; i < text.Length; i++)
+        // {
+        //     sentenceWords.Add(Split(text[i]));
+        // }
+
+        // // Check if each word of the sentence is in the entire array of strings of the question, then increment counter  
+        // for (int i = 0; i < sentenceWords.Count; i++)
+        // {
+
+        //     for (int j = 0; j < sentenceWords[i].Length; j++)
+        //     {
+        //         for (int u = 0; u < questionWords.Length; u++)
+        //         {
+        //             if (sentenceWords[i][j] == questionWords[u])
+        //             {
+        //                 similarityCounter++;
+        //                 break;
+        //             }
+        //         }
+        //     }
+        //     percentageSimilarityArray[i] = similarityCounter / lengthOfQuestions * 100;
+        //     similarityCounter = 0;
+        // }
+
+        // return percentageSimilarityArray;
+
+        int[] result = new int[text.Length];
+        string[] questionWords = Split(question);
 
         for (int i = 0; i < text.Length; i++)
         {
-            sentenceWords.Add(Split(text[i]));
-        }
-
-        // Check if each word of the sentence is in the entire array of strings of the question, then increment counter  
-        for (int i = 0; i < sentenceWords.Count; i++)
-        {
-            for (int j = 0; j < sentenceWords[i].Length; j++)
+            int similarityCounter = 0;
+            string[] wordText = Split(text[i]);
+            for (int j = 0; j < wordText[i].Length; j++)
             {
                 for (int u = 0; u < questionWords.Length; u++)
                 {
-                    if (sentenceWords[i][j] == questionWords[u])
+                    if (wordText[j] == questionWords[u])
                     {
                         similarityCounter++;
                         break;
                     }
                 }
             }
-            percentageSimilarityArray[i] = similarityCounter / lengthOfQuestions * 100;
-            similarityCounter = 0;
+            result[i] = similarityCounter / question.Length * 100;
         }
 
-        return percentageSimilarityArray;
+        return result;
     }
 
     static string[] Split(string text, object? character = null)
