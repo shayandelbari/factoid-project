@@ -2,6 +2,7 @@
 {
 
     // TODO: add landing page
+    // TODO: add ignoring ToLower if the second word is capital
     // add update Txt fn before mainMenu
     // default state is to ask question and get answer UNLESS guide, exit, updateText
 
@@ -31,13 +32,13 @@
 
 
         string? question;
-        string text = "";
+        string[] textArray = UpdateTextFn();
         int badQuestion = 0;
         bool endProgram = false;
         //default loop
         do
         {
-            Console.Write("ASK QUESTION:");
+            Console.Write("ASK QUESTION: ");
             question = Console.ReadLine();
             while (question is null) { Console.WriteLine("please ask a question"); question = Console.ReadLine(); }
 
@@ -52,7 +53,7 @@
             }
             else if (question == "Update Text")
             {
-                text = UpdateTextFn();
+                textArray = UpdateTextFn();
             }
             else
             {
@@ -67,21 +68,11 @@
                         ExplanationFn();
                         badQuestion = 0;
                     }
-                    continue;
                 }
                 else
-                // this is where we actually answer the question
-
-                // 
-                //replace w Shayan's getAnswerFN
-
                 {
-                    text = ToLower(text);
-                    text = Replace(text, "Inc.", "inc");
-                    string[] textAsSentences = Split(text, "?!.");
-                    int[] percentageSimilar = CalculateSimilarity(question, textAsSentences);
-
-                    string[]? answers = GetAnswer(answerType, textAsSentences, percentageSimilar);
+                    double[] percentageSimilar = CalculateSimilarity(question, textArray);
+                    string[]? answers = GetAnswer(answerType, textArray, percentageSimilar);
 
                     if (answers is null) Console.WriteLine("You're question didn't have any answers could you rephrase it?");
                     else
@@ -97,13 +88,23 @@
         } while (endProgram == false);
     }
 
-    static string UpdateTextFn()
+    static string[] UpdateTextFn()
     {
-        Console.Clear();
+        // Console.Clear();
         Console.WriteLine("Enter the text you would like to use as the reference. Afterwards, you can ask factoid questions based on that text");
-        string? text = Console.ReadLine();
+
+        // TODO: null text before shipping :|
+        string? text = @"The history of programming languages spans from documentation of early mechanical computers to modern tools for software development. Early programming languages were highly specialized, relying on mathematical notation and similarly obscure syntax. Throughout the 20th century, research in compiler theory led to the creation of high-level programming languages, which use a more accessible syntax to communicate instructions. The first high-level programming language was created by Konrad Zuse in 1943. The first highlevel language to have an associated compiler was created by Corrado Böhm in 1951. Konrad Zuse was born on 1910/06/22, in GERMANY, and was a notable civil engineer, pioneering computer scientist, inventor, and businessman.";
         while (text is null) { Console.WriteLine("It seems you haven't entered any text. Pleas try that again."); text = Console.ReadLine(); }
-        return text;
+
+        text = Replace(text, "Inc.", "inc"); // FIXME: come up with a better way
+        string[] textArray = Split(text, "?!.");
+
+        for (int i = 0; i < textArray.Length; i++)
+        {
+            textArray[i] = ToLower(Trim(textArray[i]));
+        }
+        return textArray;
     }
 
     static void ExplanationFn()
@@ -142,7 +143,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
                 firstWorld += question[i + 1];
                 i++;
             }
-            if (question[i] == ' ')
+            if (question[i] == ' ' || i == question.Length - 1)
             {
                 done = true;
             }
@@ -200,7 +201,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         return questionWithoutStopWords;
     }
 
-    static string[] GetPerson(string sentence)
+    static string[]? GetPerson(string sentence)
     // getting the persons name out of the given sentence
     {
         string[] result = new string[10];
@@ -227,6 +228,10 @@ Please ensure you phrase your question so it STARTS with one of the previous que
             }
         }
 
+        if (size == 0)
+        {
+            return null;
+        }
         return result[0..size];
     }
 
@@ -271,7 +276,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
 
         for (int i = 0; i < sentence.Length; i++)
         {
-            if (Char.IsNumber(sentence[i]) && sentence[i + 4] == '-' && sentence[i + 7] == '-')
+            if (Char.IsNumber(sentence[i]) && (sentence[i + 4] == '-' || sentence[i + 4] == '/') && (sentence[i + 7] == '-' || sentence[i + 7] == '/'))
             {
                 endDateIndex = i + 10;
                 output[size] = sentence[i..endDateIndex];
@@ -374,17 +379,18 @@ Please ensure you phrase your question so it STARTS with one of the previous que
 
 
 
-    static int[] CalculateSimilarity(string question, string[] text)
+    static double[] CalculateSimilarity(string question, string[] text)
     // giving an array of percentage similarity between the question and the sentences in the same order of sentences
     {
-        int[] result = new int[text.Length];
+        double[] result = new double[text.Length];
         string[] questionWords = Split(question);
 
         for (int i = 0; i < text.Length; i++)
         {
-            int similarityCounter = 0;
+            double similarityCounter = 0;
+            // double ratio = 0;
             string[] wordText = Split(text[i]);
-            for (int j = 0; j < wordText[i].Length; j++)
+            for (int j = 0; j < wordText.Length; j++)
             {
                 for (int u = 0; u < questionWords.Length; u++)
                 {
@@ -395,7 +401,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
                     }
                 }
             }
-            result[i] = similarityCounter / question.Length * 100;
+            result[i] = similarityCounter / questionWords.Length * 100;
         }
 
         return result;
@@ -403,6 +409,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
 
     static string[] Split(string text, object? character = null)
     {
+        if (text == "") return [""];
         //this part is for converting the object type to an array of characters
         int size = 0;
         if (character is char || character is null) size = 1;
@@ -427,7 +434,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         {
             for (int j = 0; j < separators.Length; j++)
             {
-                if (separators[j] == '.' && Char.IsNumber(text[i - 1]) && Char.IsNumber(text[i + 1])) continue;
+                if (separators[j] == '.' && i < text.Length - 2 && i > 1) if (Char.IsNumber(text[i - 1]) && Char.IsNumber(text[i + 1])) continue;
                 if (text[i] == separators[j])
                 {
                     found = true;
@@ -436,7 +443,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
             }
             if (found || i == text.Length - 1)
             {
-                array[i] = currentWord;
+                array[length] = currentWord;
                 length++;
                 found = false;
                 currentWord = "";
@@ -487,6 +494,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
 
     static string ToLower(string text)
     {
+        if (text.Length == 0) return text;
         int i;
         char[] listUpper = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
                             'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
@@ -507,10 +515,37 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         return Replace(text, Convert.ToString(text[0]), Convert.ToString(listLower[i]));
     }
 
-    // ** TODO :
-    static string[]? GetAnswer(string questionType, string[] text, int[] similarity)
+    static string Trim(string sentence)
     {
-        string[]? result = [];
+        int start = 0;
+        int end = sentence.Length;
+
+        for (int i = 0; i < sentence.Length; i++)
+        {
+            if (sentence[i] != ' ')
+            {
+                start += i;
+                break;
+            }
+        }
+
+        int u = 0;
+        for (int j = sentence.Length - 1; j >= 0; j--)
+        {
+            if (sentence[j] != ' ')
+            {
+                end -= u;
+                break;
+            }
+            u++;
+        }
+
+        return sentence[start..end];
+    }
+
+    static string[]? GetAnswer(string questionType, string[] text, double[] similarity)
+    {
+        string[]? result = null;
 
         int maxIndex = HighestIndex(similarity);
         int sentenceTimes = 3;
@@ -583,7 +618,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         return null;
     }
 
-    static int HighestIndex(int[] array)
+    static int HighestIndex(double[] array)
     {
         int maxIndex = 0;
 
