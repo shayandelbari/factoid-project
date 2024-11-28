@@ -1,35 +1,10 @@
 ﻿class Program
 {
-
-    // TODO: add landing page
     // TODO: add ignoring ToLower if the second word is capital
     // add update Txt fn before mainMenu
     // default state is to ask question and get answer UNLESS guide, exit, updateText
-
-    //ASK QUESTION (default loop):
-    // get input -> get factoid type (handling bad question here) -> split to sentences -> remove stop words -> get answer
-
-    // ELSES: exit, update, guide
-
     static void Main()
     {
-        // -------------TESTING CODES------------------------------------------
-
-        // TESTING: DetermineFactoidType
-        // string questionType = DetermineFactoidType("Who was the");
-        // Console.WriteLine(questionType);
-
-        // TESTING: GetPerson
-        // List<string> answer = GetPerson("Apple Inc. was founded by Steve Jobs and Steve Wozniak in CUPERTINO, CALIFORNIA, on 1976-04-01");
-        // foreach (string ans in answer)
-        // {
-        //     Console.WriteLine(ans);
-        // }
-
-
-        // ------------PANEL CODES---------------------------------------------
-        // Console.WriteLine("Welcome to Shayan, Edward, and Brett's factoid answering program", Console.Title);
-
         LandingPage();
         string? question;
         string[] textArray = UpdateTextFn();
@@ -86,7 +61,6 @@
             }
 
         } while (endProgram == false);
-        //TODO end program text
         Console.Clear();
         Console.WriteLine("Thank you for your patronage, come back anytime!");
     }
@@ -661,5 +635,3 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         return maxIndex;
     }
 }
-
-// TODO - do not remove the '.' if there the char IsNumber on both sides of the '.'
