@@ -66,6 +66,7 @@
                         ExplanationFn();
                         badQuestion = 0;
                     }
+                    continue;
                 }
                 else
                 // this is where we actually answer the question
@@ -74,7 +75,7 @@
                 //replace w Shayan's getAnswerFN
 
                 {
-
+                    text = ToLower(text);
                     text = Replace(text, "Inc.", "inc");
                     string[] textAsSentences = Split(text, "?!.");
                     int[] percentageSimilar = CalculateSimilarity(question, textAsSentences);
@@ -283,7 +284,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         return output[0..size];
     }
 
-    // TODO - if sentence[i +4] or sentence[i+7] > is outside the boundries of the array, we will run into issues. This will be a problem in GetAmount too as I borrowed his logic to make sure the number was not a DateTime
+    // TODO - if sentence[i +4] or sentence[i+7] > is outside the boundaries of the array, we will run into issues. This will be a problem in GetAmount too as I borrowed his logic to make sure the number was not a DateTime
 
     static string[]? GetAmount(string sentence)
     // TODO (review) - My thinking is, if the hasn't found DateTime, anything that is a number will be an amount, please lmk if the logic is bad, I'll fix this. 
@@ -329,7 +330,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         }
         end = start;
 
-        // make end == the ' ' after the number (or punctuation) ** when '.' is after a number, if there is another # immediatly after, continue
+        // make end == the ' ' after the number (or punctuation) ** when '.' is after a number, if there is another # immediately after, continue
         if (found == true
                     && sentence[end] != ' '
                     || (sentence[end] != '.' && !char.IsNumber(sentence[end + 1]))
@@ -367,40 +368,6 @@ Please ensure you phrase your question so it STARTS with one of the previous que
     static int[] CalculateSimilarity(string question, string[] text)
     // giving an array of percentage similarity between the question and the sentences in the same order of sentences
     {
-        // int similarityCounter = 0;
-        // int[] percentageSimilarityArray = new int[text.Length];
-        // int lengthOfQuestions = question.Length;
-        // string[] questionWords = Split(RemoveStopWords(question));
-
-
-        // List<string[]> sentenceWords = [];  // FIXME: change this to a static array
-
-        // for (int i = 0; i < text.Length; i++)
-        // {
-        //     sentenceWords.Add(Split(text[i]));
-        // }
-
-        // // Check if each word of the sentence is in the entire array of strings of the question, then increment counter  
-        // for (int i = 0; i < sentenceWords.Count; i++)
-        // {
-
-        //     for (int j = 0; j < sentenceWords[i].Length; j++)
-        //     {
-        //         for (int u = 0; u < questionWords.Length; u++)
-        //         {
-        //             if (sentenceWords[i][j] == questionWords[u])
-        //             {
-        //                 similarityCounter++;
-        //                 break;
-        //             }
-        //         }
-        //     }
-        //     percentageSimilarityArray[i] = similarityCounter / lengthOfQuestions * 100;
-        //     similarityCounter = 0;
-        // }
-
-        // return percentageSimilarityArray;
-
         int[] result = new int[text.Length];
         string[] questionWords = Split(question);
 
@@ -475,7 +442,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
     }
 
     static string Replace(string text, string target, string replacement)
-    // this function will be used for replacing the words like `Inc.` with `Inc`
+    // this function will be used for replacing the words like `Inc.` with `inc`
     {
         string result = "";
         bool found = false;
@@ -509,7 +476,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         return result;
     }
 
-    string ToLower(ref string text)
+    static string ToLower(string text)
     {
         int i;
         char[] listUpper = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
