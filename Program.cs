@@ -35,10 +35,9 @@
         string[] textArray = UpdateTextFn();
         int badQuestion = 0;
         bool endProgram = false;
-        //default loop
+        //default loop (ie the main program itself, this will run on loop until )
         do
         {
-            Console.Write("ASK QUESTION: ");
             question = Console.ReadLine();
             while (question is null) { Console.WriteLine("please ask a question"); question = Console.ReadLine(); }
 
@@ -50,6 +49,7 @@
             {
                 ExplanationFn();
                 badQuestion = 0;
+                //Reset the bad question counter every time they read the explanation
             }
             else if (question == "Update Text")
             {
@@ -86,11 +86,41 @@
             }
 
         } while (endProgram == false);
+        //TODO end program text
+        Console.Clear();
+        Console.WriteLine("Thank you for your patronage, come back anytime!");
     }
 
+    static void OtherKeywords()
+    {
+        Console.WriteLine("You can ask a factoid question, or you can enter one of the following keywords:");
+        Console.WriteLine("");
+        Console.WriteLine("Update ---- changes the reference text");
+        Console.WriteLine("Explain --- provides a short explanation on what type of questions you can ask");
+        Console.WriteLine("Exit ------ ends the program");
+        Console.WriteLine("");
+    }
+
+
+    static void LandingPage()
+    {
+        Console.Clear();
+        Console.WriteLine("Shayan Delbari, Edward Angeles, and Brett Trudel are proud to present:");
+        Console.WriteLine("🅣🅗🅔 🅕🅐🅒🅣🅞🅘🅓 🅐🅝🅢🅦🅔🅡🅘🅝🅖 🅟🅡🅞🅖🅡🅐🅜");
+        Console.WriteLine("");
+
+        //TODO - make sure this is calling the right Fn, I think we changed the name(?)
+        text = UpdateText();
+
+        Console.WriteLine("Factoid questions start with who, when, where, how many, or how much.");
+        Console.WriteLine("");
+        OtherKeywords();
+    }
     static string[] UpdateTextFn()
+    //input reference text & split it to arrays of words within arrays of sentences
     {
         // Console.Clear();
+        Console.WriteLine("🅤🅟🅓🅐🅣🅔 🅣🅔🅧🅣");
         Console.WriteLine("Enter the text you would like to use as the reference. Afterwards, you can ask factoid questions based on that text");
 
         // TODO: null text before shipping :|
@@ -121,6 +151,7 @@ A factoid question is a closed-ended question based on one of these question wor
 Please ensure you phrase your question so it STARTS with one of the previous question words:";
 
         Console.Clear();
+        Console.WriteLine("🅔🅧🅟🅛🅐🅝🅐🅣🅘🅞🅝");
         Console.WriteLine(guide);
     }
 
