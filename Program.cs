@@ -13,8 +13,9 @@
         //default loop (ie the main program itself, this will run on loop until )
         do
         {
+            Console.Write("ASK A QUESTION: ");
             question = Console.ReadLine();
-            while (question is null) { Console.WriteLine("please ask a question"); question = Console.ReadLine(); }
+            while (question is null || question == "") { Console.WriteLine("please ask a question"); question = Console.ReadLine(); }
 
             if (question == "Exit" || question == "q" || question == "exit")
             {
@@ -85,7 +86,7 @@
         Console.WriteLine("Factoid questions start with who, when, where, how many, or how much.");
         Console.WriteLine("");
         Console.WriteLine("Press any key to continue...");
-        Console.ReadLine();
+        Console.ReadKey();
     }
     static string[] UpdateTextFn()
     //input reference text & split it to arrays of words within arrays of sentences
@@ -95,8 +96,8 @@
         Console.WriteLine("Enter the text you would like to use as the reference. Afterwards, you can ask factoid questions based on that text");
 
         // TODO: null text before shipping :|
-        string? text = @"The history of programming languages spans from documentation of early mechanical computers to modern tools for software development. Early programming languages were highly specialized, relying on mathematical notation and similarly obscure syntax. Throughout the 20th century, research in compiler theory led to the creation of high-level programming languages, which use a more accessible syntax to communicate instructions. The first high-level programming language was created by Konrad Zuse in 1943. The first highlevel language to have an associated compiler was created by Corrado Böhm in 1951. Konrad Zuse was born on 1910/06/22, in GERMANY, and was a notable civil engineer, pioneering computer scientist, inventor, and businessman.";
-        while (text is null) { Console.WriteLine("It seems you haven't entered any text. Pleas try that again."); text = Console.ReadLine(); }
+        string? text = @"Apple Inc. was founded by Steve Jobs and Steve Wozniak in CUPERTINO, CALIFORNIA, on 1976-04-01. The company initially raised $1,000 to develop their first product. In 2023, Apple reported a 15% revenue increase, reaching a total of $387.53 billion.";
+        while (text is null || text == "") { Console.WriteLine("It seems you haven't entered any text. Please try that again."); text = Console.ReadLine(); }
 
         text = Replace(text, "Inc.", "inc"); // FIXME: come up with a better way
         string[] textArray = Split(text, "?!.");
@@ -250,16 +251,16 @@ Please ensure you phrase your question so it STARTS with one of the previous que
             {
                 found = true;
             }
-            if (found)
-            {
-                word += sentence[i];
-            }
-            else if ((sentence[i] == ' ' || sentence[i] == '.') && Char.IsLower(sentence[i + 1]) && found)
+            if (((sentence[i] == ' ' && Char.IsLower(sentence[i + 1])) || (sentence[i] == ',')) && found)
             {
                 found = false;
                 result[size] = word;
                 size++;
                 word = "";
+            }
+            else if (found)
+            {
+                word += sentence[i];
             }
         }
 
