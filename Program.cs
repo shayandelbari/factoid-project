@@ -63,7 +63,7 @@
                     else
                     {
                         Console.WriteLine();
-                        for (int i = 0; i >= answers.Length; i++)
+                        for (int i = 0; i < answers.Length; i++)
                         {
                             Console.WriteLine(answers[i]);
                         }
