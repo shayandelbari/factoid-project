@@ -106,7 +106,7 @@
     //input reference text & split it to arrays of words within arrays of sentences
     {
         Console.Clear();
-        Console.WriteLine("🅤🅟🅓🅐🅣🅔 🅣🅔🅧🅣");
+        Console.WriteLine("🅤🅟🅓🅐🅣🅔 🅣🅔🅧🅣"); //Update Text
         Console.WriteLine("Enter the text you would like to use as the reference. Afterwards, you can ask factoid questions based on that text");
 
         // TODO: null text before shipping :|
@@ -142,7 +142,7 @@ A factoid question is a closed-ended question based on one of these question wor
 Please ensure you phrase your question so it STARTS with one of the previous question words:";
 
         Console.Clear();
-        Console.WriteLine("🅔🅧🅟🅛🅐🅝🅐🅣🅘🅞🅝");
+        Console.WriteLine("🅔🅧🅟🅛🅐🅝🅐🅣🅘🅞🅝"); //Explanation
         Console.WriteLine(guide);
     }
 
