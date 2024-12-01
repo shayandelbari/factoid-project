@@ -25,7 +25,7 @@
                 question = Console.ReadLine();
             }
 
-            if (question == "Exit" || question == "q" || question == "exit")
+            if (question == "Exit" || question == "q" || question == "exit" || question == "quit" || question == "Quit")
             {
                 endProgram = true;
             }
@@ -55,6 +55,7 @@
                 }
                 else
                 {
+                    question = RemoveStopWords(question);
                     double[] percentageSimilar = CalculateSimilarity(question, textArray);
                     string[]? answers = GetAnswer(answerType, textArray, percentageSimilar);
 
@@ -66,12 +67,16 @@
                             Console.WriteLine(answer);
                         }
                     }
+                    Console.ReadKey();
                 }
             }
 
         } while (endProgram == false);
         Console.Clear();
         Console.WriteLine("Thank you for your patronage, come back anytime!");
+        int milliseconds = 3000;
+        Thread.Sleep(milliseconds);
+        Console.Clear();
     }
 
     static void OtherKeywords()
@@ -82,30 +87,29 @@
         Console.WriteLine("Explain --- provides a short explanation on what type of questions you can ask");
         Console.WriteLine("Exit ------ ends the program");
         Console.WriteLine("");
-        Console.WriteLine("You can ask a factoid question, or you can enter one of the above keywords:");
     }
-
 
     static void LandingPage()
     {
-        // Console.Clear();
+        Console.Clear();
         Console.WriteLine("Shayan Delbari, Edward Angeles, and Brett Trudel are proud to present:");
         Console.WriteLine("🅣🅗🅔 🅕🅐🅒🅣🅞🅘🅓 🅐🅝🅢🅦🅔🅡🅘🅝🅖 🅟🅡🅞🅖🅡🅐🅜");
         Console.WriteLine("");
         Console.WriteLine("Factoid questions start with who, when, where, how many, or how much.");
         Console.WriteLine("");
         Console.WriteLine("Press any key to continue...");
-        // Console.ReadKey();
+        Console.ReadKey();
     }
     static string[] UpdateTextFn()
     //input reference text & split it to arrays of words within arrays of sentences
     {
-        // Console.Clear();
+        Console.Clear();
         Console.WriteLine("🅤🅟🅓🅐🅣🅔 🅣🅔🅧🅣");
         Console.WriteLine("Enter the text you would like to use as the reference. Afterwards, you can ask factoid questions based on that text");
 
         // TODO: null text before shipping :|
-        string? text = DATA[1];
+        string? text;
+        text = Console.ReadLine();
         while (text is null || text == "")
         {
             Console.WriteLine("It seems you haven't entered any text. Please try that again.");
@@ -325,8 +329,6 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         }
         return output[0..size];
     }
-
-    // TODO - if sentence[i +4] or sentence[i+7] > is outside the boundaries of the array, we will run into issues. This will be a problem in GetAmount too as I borrowed his logic to make sure the number was not a DateTime
 
     static string[]? GetAmount(string sentence)
     {
