@@ -282,19 +282,31 @@ Please ensure you phrase your question so it STARTS with one of the previous que
 
         for (int i = 0; i < sentence.Length; i++)
         {
-            if (Char.IsNumber(sentence[i]) && (sentence[i + 4] == '-' || sentence[i + 4] == '/') && (sentence[i + 7] == '-' || sentence[i + 7] == '/'))
+            if (i < sentence.Length - 10 && Char.IsNumber(sentence[i]) && (sentence[i + 4] == '-' || sentence[i + 4] == '/') && (sentence[i + 7] == '-' || sentence[i + 7] == '/'))
             {
                 endDateIndex = i + 10;
                 output[size] = sentence[i..endDateIndex];
                 size++;
                 i += 10;
             }
-            else if (Char.IsNumber(sentence[i]) && (sentence[i + 3] == ' ' || sentence[i + 4] == '.'))
+            else if (i < sentence.Length - 4 && Char.IsNumber(sentence[i]) && (sentence[i + 4] == ' ' || sentence[i + 4] == ','))
             {
-                endDateIndex = i + 4;
-                output[size] = sentence[i..endDateIndex];
-                size++;
-                i += 4;
+                bool allNumbers = true;
+                for (int j = 0; j < 4; j++)
+                {
+                    if (!Char.IsNumber(sentence[i + j]))
+                    {
+                        allNumbers = false;
+                        break;
+                    }
+                }
+                if (allNumbers)
+                {
+                    endDateIndex = i + 4;
+                    output[size] = sentence[i..endDateIndex];
+                    size++;
+                    i += 4;
+                }
             }
         }
         if (size == 0)
@@ -307,83 +319,51 @@ Please ensure you phrase your question so it STARTS with one of the previous que
     // TODO - if sentence[i +4] or sentence[i+7] > is outside the boundaries of the array, we will run into issues. This will be a problem in GetAmount too as I borrowed his logic to make sure the number was not a DateTime
 
     static string[]? GetAmount(string sentence)
-    // TODO (review) - My thinking is, if the hasn't found DateTime, anything that is a number will be an amount, please lmk if the logic is bad, I'll fix this. 
     {
-        string[] output = new string[10];
+        string[] result = new string[10];
         int size = 0;
+        string[] words = Split(sentence);
         bool found = false;
-        int start = 0;
-        int end = 0;
-        int i = 0;
+        char[] chars = { '%', '$' };
 
-        // find if there is a number
-        do
+        for (int i = 0; i < words.Length; i++)
         {
-            if (found == false
-                    && Char.IsNumber(sentence[i]) == true)
+            if (words[i].Length > 1 && Char.IsNumber(words[i][0]))
             {
-                found = true;
-                start = i;
-                // log the start location
+                for (int j = 0; j < chars.Length; j++)
+                {
+                    if (words[i][^1] == chars[j])
+                    {
+                        found = true;
+                        break;
+                    }
+                }
             }
-            // confirm that it is not a DateTime, else make found = false
-            if (found == true && Char.IsNumber(sentence[i])
-                    && sentence[i + 4] == '-' && sentence[i + 7] == '-')
+            else if (words[i].Length > 1 && Char.IsNumber(words[i][1]))
             {
+                for (int j = 0; j < chars.Length; j++)
+                {
+                    if (words[i][0] == chars[j])
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if (found)
+            {
+                result[size] += words[i];
+                size++;
                 found = false;
             }
-            i++;
-        } while (i < sentence.Length && !found);
-        // end loop if a number is found || get to the end of the sentence. 
-
-        // find the ' ' before the word with the number, set start = first char of word with number
-        // cant check the number before start if start == 0;
-        if (found == true
-                && sentence[start - 1] != ' '
-                || start == 0)
-        {
-            do
-            {
-                start--;
-            } while (sentence[start - 1] != ' ');
-
         }
-        end = start;
-
-        // make end == the ' ' after the number (or punctuation) ** when '.' is after a number, if there is another # immediately after, continue
-        if (found == true
-                    && sentence[end] != ' '
-                    || (sentence[end] != '.' && !char.IsNumber(sentence[end + 1]))
-                    || sentence[end] != '!'
-                    || sentence[end] != '?')
-        {
-            while (sentence[end] != ' '
-                    && (sentence[end] != '.' && !char.IsNumber(sentence[end + 1]))
-                    && sentence[end] != '!'
-                    && sentence[end] != '?')
-            {
-                end++;
-            }
-
-        }
-
-        //even if the number is one digit long, end will be the digit after it, therefore if end - start == 0, or the if statements were not entered, Fn will return NULL
-        size = end - start;
 
         if (size == 0)
         {
             return null;
         }
-        end--;
-        return output[start..end];
-
-        // at end if no result is found (size == 0), return null
-        // limitation, what if there are more than 2 words with numbers in the same sentence
+        return result[0..size];
     }
-
-    // limitation, the program cannot find the difference between a year and a four digit number. if both exist in the same sentence, it will return the one that shows up first to the factoid type that it is looking for.
-
-
 
     static double[] CalculateSimilarity(string question, string[] text)
     // giving an array of percentage similarity between the question and the sentences in the same order of sentences
@@ -607,23 +587,23 @@ Please ensure you phrase your question so it STARTS with one of the previous que
             }
             else if (questionType == "getAmount")
             {
-                // result = GetAmount(text[maxIndex]);
+                result = GetAmount(text[maxIndex]);
 
-                // if (result != null)
-                // {
-                //     return result;
-                // }
-                // else
-                // {
-                //     similarity[maxIndex] = 0;
-                //     maxIndex = HighestIndex(similarity);
-                //     continue;
-                // }
+                if (result != null)
+                {
+                    return result;
+                }
+                else
+                {
+                    similarity[maxIndex] = 0;
+                    maxIndex = HighestIndex(similarity);
+                    continue;
+                }
             }
 
         }
 
-        return null;
+        return result;
     }
 
     static int HighestIndex(double[] array)
