@@ -68,6 +68,7 @@
                             Console.WriteLine(answers[i]);
                         }
                     }
+                    Console.Write("Continue... ");
                     Console.ReadKey();
                 }
             }
