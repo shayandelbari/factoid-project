@@ -231,11 +231,11 @@ Please ensure you phrase your question so it STARTS with one of the previous que
 
         for (int i = 0; i < sentence.Length; i++)
         {
-            if (Char.IsUpper(sentence[i]) && Char.IsLower(sentence[i + 1]))
+            if (i < sentence.Length - 1 && Char.IsUpper(sentence[i]) && Char.IsLower(sentence[i + 1]))
             {
                 found = true;
             }
-            else if (sentence[i] == ' ' && Char.IsLower(sentence[i + 1]) && found)
+            else if (i < sentence.Length - 1 && sentence[i] == ' ' && Char.IsLower(sentence[i + 1]) && found)
             {
                 found = false;
                 result[size] = word;
@@ -264,11 +264,11 @@ Please ensure you phrase your question so it STARTS with one of the previous que
 
         for (int i = 0; i < sentence.Length; i++)
         {
-            if (!found && Char.IsUpper(sentence[i]) && Char.IsUpper(sentence[i + 1]))
+            if (i < sentence.Length - 1 && !found && Char.IsUpper(sentence[i]) && Char.IsUpper(sentence[i + 1]))
             {
                 found = true;
             }
-            if (((sentence[i] == ' ' && Char.IsLower(sentence[i + 1])) || (sentence[i] == ',')) && found)
+            if (i < sentence.Length - 1 && ((sentence[i] == ' ' && Char.IsLower(sentence[i + 1])) || (sentence[i] == ',')) && found)
             {
                 found = false;
                 result[size] = word;
