@@ -16,21 +16,26 @@
         //default loop (ie the main program itself, this will run on loop until )
         do
         {
-            Console.Write("ASK A QUESTION: ");
+            OtherKeywords();
+            Console.WriteLine("You can ask a factoid question, or you can enter one of the following keywords:");
             question = Console.ReadLine();
-            while (question is null || question == "") { Console.WriteLine("please ask a question"); question = Console.ReadLine(); }
+            while (question is null || question == "")
+            {
+                Console.WriteLine("Please ask a question, or enter one of the above keywords:");
+                question = Console.ReadLine();
+            }
 
             if (question == "Exit" || question == "q" || question == "exit")
             {
                 endProgram = true;
             }
-            else if (question == "Explain")
+            else if (question == "Explain" || question == "explain" || question == "Explanation" || question == "explanation")
             {
                 ExplanationFn();
                 badQuestion = 0;
                 //Reset the bad question counter every time they read the explanation
             }
-            else if (question == "Update Text")
+            else if (question == "Update Text" || question == "update text" || question == "Update" || question == "update")
             {
                 textArray = UpdateTextFn();
             }
@@ -71,12 +76,13 @@
 
     static void OtherKeywords()
     {
-        Console.WriteLine("You can ask a factoid question, or you can enter one of the following keywords:");
+        Console.Clear();
         Console.WriteLine("");
         Console.WriteLine("Update ---- changes the reference text");
         Console.WriteLine("Explain --- provides a short explanation on what type of questions you can ask");
         Console.WriteLine("Exit ------ ends the program");
         Console.WriteLine("");
+        Console.WriteLine("You can ask a factoid question, or you can enter one of the above keywords:");
     }
 
 
@@ -100,7 +106,11 @@
 
         // TODO: null text before shipping :|
         string? text = DATA[1];
-        while (text is null || text == "") { Console.WriteLine("It seems you haven't entered any text. Please try that again."); text = Console.ReadLine(); }
+        while (text is null || text == "")
+        {
+            Console.WriteLine("It seems you haven't entered any text. Please try that again.");
+            text = Console.ReadLine();
+        }
 
         text = Replace(text, "Inc.", "inc"); // FIXME: come up with a better way
         string[] textArray = Split(text, "?!.");
@@ -621,3 +631,5 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         return maxIndex;
     }
 }
+
+// TODO - Replace Brett's bad characters as titles
