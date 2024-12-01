@@ -16,13 +16,12 @@
         //default loop (ie the main program itself, this will run on loop until )
         do
         {
-            Console.Clear();
             OtherKeywords();
-            Console.Write("ASK A QUESTION: ");
+            Console.WriteLine("You can ask a factoid question, or you can enter one of the following keywords:");
             question = Console.ReadLine();
             while (question is null || question == "")
             {
-                Console.WriteLine("please ask a question");
+                Console.WriteLine("Please ask a question, or enter one of the above keywords:");
                 question = Console.ReadLine();
             }
 
@@ -30,13 +29,13 @@
             {
                 endProgram = true;
             }
-            else if (question == "Explain")
+            else if (question == "Explain" || question == "explain" || question == "Explanation" || question == "explanation")
             {
                 ExplanationFn();
                 badQuestion = 0;
                 //Reset the bad question counter every time they read the explanation
             }
-            else if (question == "Update Text")
+            else if (question == "Update Text" || question == "update text" || question == "Update" || question == "update")
             {
                 textArray = UpdateTextFn();
             }
@@ -77,12 +76,13 @@
 
     static void OtherKeywords()
     {
-        Console.WriteLine("You can ask a factoid question, or you can enter one of the following keywords:");
+        Console.Clear();
         Console.WriteLine("");
         Console.WriteLine("Update ---- changes the reference text");
         Console.WriteLine("Explain --- provides a short explanation on what type of questions you can ask");
         Console.WriteLine("Exit ------ ends the program");
         Console.WriteLine("");
+        Console.WriteLine("You can ask a factoid question, or you can enter one of the above keywords:");
     }
 
 
@@ -651,3 +651,5 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         return maxIndex;
     }
 }
+
+// TODO - Replace Brett's bad characters as titles
