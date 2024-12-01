@@ -59,7 +59,7 @@
                     double[] percentageSimilar = CalculateSimilarity(question, textArray);
                     string[]? answers = GetAnswer(answerType, textArray, percentageSimilar);
 
-                    if (answers is null) Console.WriteLine("You're question didn't have any answers could you rephrase it?");
+                    if (answers is null) Console.WriteLine("Your question didn't have any answers could you rephrase it?");
                     else
                     {
                         Console.WriteLine();
