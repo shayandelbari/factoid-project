@@ -62,11 +62,13 @@
                     if (answers is null) Console.WriteLine("You're question didn't have any answers could you rephrase it?");
                     else
                     {
-                        foreach (string answer in answers)
+                        Console.WriteLine();
+                        for (int i = 0; i >= answers.Length; i++)
                         {
-                            Console.WriteLine(answer);
+                            Console.WriteLine(answers[i]);
                         }
                     }
+                    Console.Write("Continue... ");
                     Console.ReadKey();
                 }
             }
