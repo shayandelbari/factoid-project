@@ -16,9 +16,15 @@
         //default loop (ie the main program itself, this will run on loop until )
         do
         {
+            Console.Clear();
+            OtherKeywords();
             Console.Write("ASK A QUESTION: ");
             question = Console.ReadLine();
-            while (question is null || question == "") { Console.WriteLine("please ask a question"); question = Console.ReadLine(); }
+            while (question is null || question == "")
+            {
+                Console.WriteLine("please ask a question");
+                question = Console.ReadLine();
+            }
 
             if (question == "Exit" || question == "q" || question == "exit")
             {
@@ -100,7 +106,11 @@
 
         // TODO: null text before shipping :|
         string? text = DATA[1];
-        while (text is null || text == "") { Console.WriteLine("It seems you haven't entered any text. Please try that again."); text = Console.ReadLine(); }
+        while (text is null || text == "")
+        {
+            Console.WriteLine("It seems you haven't entered any text. Please try that again.");
+            text = Console.ReadLine();
+        }
 
         text = Replace(text, "Inc.", "inc"); // FIXME: come up with a better way
         string[] textArray = Split(text, "?!.");
