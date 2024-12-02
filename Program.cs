@@ -4,8 +4,6 @@
         "Apple Inc. was founded by Steve Jobs and Steve Wozniak in CUPERTINO, CALIFORNIA, on 1976-04-01. The company initially raised $1,000 to develop their first product. In 2023, Apple reported a 15% revenue increase, reaching a total of $387.53 billion.",
         "The history of programming languages spans from documentation of early mechanical computers to modern tools for software development. Early programming languages were highly specialized, relying on mathematical notation and similarly obscure syntax. Throughout the 20th century, research in compiler theory led to the creation of high-level programming languages, which use a more accessible syntax to communicate instructions. The first high-level programming language was created by Konrad Zuse in 1943. The first highlevel language to have an associated compiler was created by Corrado Böhm in 1951. Konrad Zuse was born on 1910/06/22, in GERMANY, and was a notable civil engineer, pioneering computer scientist, inventor, and businessman."
     };
-    // add update Txt fn before mainMenu
-    // default state is to ask question and get answer UNLESS guide, exit, updateText
     static void Main()
     {
         LandingPage();
@@ -45,7 +43,9 @@
 
                 if (answerType == "bad")
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("The question you have asked is invalid, please rephrase your question and ask again");
+                    Console.ResetColor();
                     Console.Write("\nContinue... ");
                     Console.ReadKey();
                     badQuestion++;
@@ -61,7 +61,12 @@
                     double[] percentageSimilar = CalculateSimilarity(question, textArray);
                     string[]? answers = GetAnswer(answerType, textArray, percentageSimilar);
 
-                    if (answers is null) Console.WriteLine("Your question didn't have any answers could you rephrase it?");
+                    if (answers is null)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine("Your question didn't have any answers could you rephrase it?");
+                        Console.ResetColor();
+                    }
                     else
                     {
                         Console.WriteLine();
@@ -83,23 +88,6 @@
         Console.Clear();
     }
 
-    static void OtherKeywords()
-    {
-        string msg = @"
-  ___                  _   _                 
- / _ \ _   _  ___  ___| |_(_) ___  _ __  ___ 
-| | | | | | |/ _ \/ __| __| |/ _ \| '_ \/ __|
-| |_| | |_| |  __/\__ \ |_| | (_) | | | \__ \
- \__\_\\__,_|\___||___/\__|_|\___/|_| |_|___/
- ";
-        Console.Clear();
-        Console.WriteLine(msg + "\n");
-        Console.WriteLine("Update ---- changes the reference text");
-        Console.WriteLine("Explain --- provides a short explanation on what type of questions you can ask");
-        Console.WriteLine("Exit ------ ends the program");
-        Console.WriteLine("");
-    }
-
     static void LandingPage()
     {
         string msg = @"
@@ -116,16 +104,39 @@
 ██║▄▄ ██║ ██╔╝  ██╔══██║                             
 ╚██████╔╝██╔╝   ██║  ██║                             
  ╚══▀▀═╝ ╚═╝    ╚═╝  ╚═╝
- ";
+";
         Console.Clear();
         Console.WriteLine("Shayan Delbari, Edward Angeles, and Brett Trudel are proud to present:");
+        Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine(msg);
+        Console.ResetColor();
         Console.WriteLine("");
         Console.WriteLine("Factoid questions start with who, when, where, how many, or how much.");
         Console.WriteLine("");
         Console.WriteLine("Press any key to continue...");
         Console.ReadKey();
     }
+
+    static void OtherKeywords()
+    {
+        string msg = @"
+  ___                  _   _                 
+ / _ \ _   _  ___  ___| |_(_) ___  _ __  ___ 
+| | | | | | |/ _ \/ __| __| |/ _ \| '_ \/ __|
+| |_| | |_| |  __/\__ \ |_| | (_) | | | \__ \
+ \__\_\\__,_|\___||___/\__|_|\___/|_| |_|___/
+
+";
+        Console.Clear();
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
+        Console.WriteLine(msg);
+        Console.ResetColor();
+        Console.WriteLine("Update ---- changes the reference text");
+        Console.WriteLine("Explain --- provides a short explanation on what type of questions you can ask");
+        Console.WriteLine("Exit ------ ends the program");
+        Console.WriteLine("");
+    }
+
     static string[] UpdateTextFn()
     //input reference text & split it to arrays of words within arrays of sentences
     {
@@ -138,19 +149,23 @@
       |_|                                            
 ";
         Console.Clear();
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
         Console.WriteLine(msg);
+        Console.ResetColor();
         Console.WriteLine("Enter the text you would like to use as the reference. Afterwards, you can ask factoid questions based on that text");
 
         // TODO: null text before shipping :|
         string? text;
         text = Console.ReadLine();
-        while (text is null || text == "")
+        while (text is null || CheckText(text))
         {
-            Console.WriteLine("It seems you haven't entered any text. Please try that again.");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("\nIt seems you haven't entered any text or it doesn't fit the guide lines. Please try another text again.");
+            Console.ResetColor();
             text = Console.ReadLine();
         }
 
-        text = Replace(text, "Inc.", "inc"); // FIXME: come up with a better way
+        text = Replace(text, "Inc.", "inc");
         string[] textArray = Split(text, "?!.");
 
         for (int i = 0; i < textArray.Length; i++)
@@ -158,6 +173,14 @@
             textArray[i] = ToLower(Trim(textArray[i]));
         }
         return textArray;
+    }
+
+    static bool CheckText(string text)
+    {
+        if (text == "") return true;
+        if (Split(text).Length < 2) return true;
+
+        return false;
     }
 
     static void ExplanationFn()
@@ -182,10 +205,14 @@ A factoid question is a closed-ended question based on one of these question wor
 Please ensure you phrase your question so it STARTS with one of the previous question words:";
 
         Console.Clear();
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
         Console.WriteLine(msg);
+        Console.ResetColor();
         Console.WriteLine(guide);
         Console.ReadKey();
     }
+
+    // static void WriteLine(string msg, )
 
     static string DetermineFactoidType(string question)
     // determining the type of question
@@ -450,7 +477,6 @@ Please ensure you phrase your question so it STARTS with one of the previous que
 
     static string[] Split(string text, object? character = null)
     {
-        if (text == "") return [""];
         //this part is for converting the object type to an array of characters
         int size = 0;
         if (character is char || character is null) size = 1;
@@ -536,6 +562,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
     static string ToLower(string text)
     {
         if (text.Length == 0) return text;
+        bool found = false;
         int i;
         char[] listUpper = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
                             'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
@@ -551,8 +578,14 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         {
             if (text[0] == listUpper[i])
             {
+                found = true;
                 break;
             }
+        }
+
+        if (!found)
+        {
+            return text;
         }
 
         return listLower[i] + text[1..];
