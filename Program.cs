@@ -154,7 +154,6 @@
         Console.ResetColor();
         Console.WriteLine("Enter the text you would like to use as the reference. Afterwards, you can ask factoid questions based on that text");
 
-        // TODO: null text before shipping :|
         string? text;
         text = Console.ReadLine();
         while (text is null || CheckText(text))
@@ -709,5 +708,3 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         return maxIndex;
     }
 }
-
-// TODO - Replace Brett's bad characters as titles
