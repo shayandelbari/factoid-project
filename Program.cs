@@ -29,13 +29,13 @@
             {
                 endProgram = true;
             }
-            else if (question == "Explain" || question == "explain" || question == "Explanation" || question == "explanation")
+            else if (question == "Explain" || question == "explain" || question == "Explanation" || question == "explanation" || question == "e")
             {
                 ExplanationFn();
                 badQuestion = 0;
                 //Reset the bad question counter every time they read the explanation
             }
-            else if (question == "Update Text" || question == "update text" || question == "Update" || question == "update")
+            else if (question == "Update Text" || question == "update text" || question == "Update" || question == "update" || question == "u")
             {
                 textArray = UpdateTextFn();
             }
@@ -46,6 +46,8 @@
                 if (answerType == "bad")
                 {
                     Console.WriteLine("The question you have asked is invalid, please rephrase your question and ask again");
+                    Console.Write("\nContinue... ");
+                    Console.ReadKey();
                     badQuestion++;
                     if (badQuestion >= 3)
                     {
@@ -83,8 +85,15 @@
 
     static void OtherKeywords()
     {
+        string msg = @"
+  ___                  _   _                 
+ / _ \ _   _  ___  ___| |_(_) ___  _ __  ___ 
+| | | | | | |/ _ \/ __| __| |/ _ \| '_ \/ __|
+| |_| | |_| |  __/\__ \ |_| | (_) | | | \__ \
+ \__\_\\__,_|\___||___/\__|_|\___/|_| |_|___/
+ ";
         Console.Clear();
-        Console.WriteLine("");
+        Console.WriteLine(msg + "\n");
         Console.WriteLine("Update ---- changes the reference text");
         Console.WriteLine("Explain --- provides a short explanation on what type of questions you can ask");
         Console.WriteLine("Exit ------ ends the program");
@@ -93,9 +102,24 @@
 
     static void LandingPage()
     {
+        string msg = @"
+███████╗ █████╗  ██████╗████████╗ ██████╗ ██╗██████╗ 
+██╔════╝██╔══██╗██╔════╝╚══██╔══╝██╔═══██╗██║██╔══██╗
+█████╗  ███████║██║        ██║   ██║   ██║██║██║  ██║
+██╔══╝  ██╔══██║██║        ██║   ██║   ██║██║██║  ██║
+██║     ██║  ██║╚██████╗   ██║   ╚██████╔╝██║██████╔╝
+╚═╝     ╚═╝  ╚═╝ ╚═════╝   ╚═╝    ╚═════╝ ╚═╝╚═════╝ 
+                                                     
+ ██████╗     ██╗ █████╗                              
+██╔═══██╗   ██╔╝██╔══██╗                             
+██║   ██║  ██╔╝ ███████║                             
+██║▄▄ ██║ ██╔╝  ██╔══██║                             
+╚██████╔╝██╔╝   ██║  ██║                             
+ ╚══▀▀═╝ ╚═╝    ╚═╝  ╚═╝
+ ";
         Console.Clear();
         Console.WriteLine("Shayan Delbari, Edward Angeles, and Brett Trudel are proud to present:");
-        Console.WriteLine("🅣🅗🅔 🅕🅐🅒🅣🅞🅘🅓 🅐🅝🅢🅦🅔🅡🅘🅝🅖 🅟🅡🅞🅖🅡🅐🅜");
+        Console.WriteLine(msg);
         Console.WriteLine("");
         Console.WriteLine("Factoid questions start with who, when, where, how many, or how much.");
         Console.WriteLine("");
@@ -105,8 +129,16 @@
     static string[] UpdateTextFn()
     //input reference text & split it to arrays of words within arrays of sentences
     {
+        string msg = @"
+ _   _           _       _         _____         _   
+| | | |_ __   __| | __ _| |_ ___  |_   _|____  _| |_ 
+| | | | '_ \ / _` |/ _` | __/ _ \   | |/ _ \ \/ / __|
+| |_| | |_) | (_| | (_| | ||  __/   | |  __/>  <| |_ 
+ \___/| .__/ \__,_|\__,_|\__\___|   |_|\___/_/\_\\__|
+      |_|                                            
+";
         Console.Clear();
-        Console.WriteLine("🅤🅟🅓🅐🅣🅔 🅣🅔🅧🅣");
+        Console.WriteLine(msg);
         Console.WriteLine("Enter the text you would like to use as the reference. Afterwards, you can ask factoid questions based on that text");
 
         // TODO: null text before shipping :|
@@ -131,6 +163,14 @@
     static void ExplanationFn()
     //explanation Fn
     {
+        string msg = @"
+ _____            _                   _   _             
+| ____|_  ___ __ | | __ _ _ __   __ _| |_(_) ___  _ __  
+|  _| \ \/ / '_ \| |/ _` | '_ \ / _` | __| |/ _ \| '_ \ 
+| |___ >  <| |_) | | (_| | | | | (_| | |_| | (_) | | | |
+|_____/_/\_\ .__/|_|\__,_|_| |_|\__,_|\__|_|\___/|_| |_|
+           |_|                                          
+";
         string guide = @"This program is designed to work with factoid questions. We wanted to share what that means so you can get the best out of the program.
 A factoid question is a closed-ended question based on one of these question words:
 - WHO
@@ -142,8 +182,9 @@ A factoid question is a closed-ended question based on one of these question wor
 Please ensure you phrase your question so it STARTS with one of the previous question words:";
 
         Console.Clear();
-        Console.WriteLine("🅔🅧🅟🅛🅐🅝🅐🅣🅘🅞🅝");
+        Console.WriteLine(msg);
         Console.WriteLine(guide);
+        Console.ReadKey();
     }
 
     static string DetermineFactoidType(string question)
