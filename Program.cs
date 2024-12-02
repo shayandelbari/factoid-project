@@ -156,7 +156,7 @@
 
         string? text;
         text = Console.ReadLine();
-        while (text is null || CheckText(text))
+        while (text is null || !CheckText(text))
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("\nIt seems you haven't entered any text or it doesn't fit the guide lines. Please try another text again.");
@@ -176,10 +176,10 @@
 
     static bool CheckText(string text)
     {
-        if (text == "") return true;
-        if (Split(text).Length < 2) return true;
+        if (text == "") return false;
+        if (Split(text).Length < 2) return false;
 
-        return false;
+        return true;
     }
 
     static void ExplanationFn()
