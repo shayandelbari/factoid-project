@@ -1,9 +1,6 @@
 ﻿class Program
 {
-    public static readonly string[] DATA = {
-        "Apple Inc. was founded by Steve Jobs and Steve Wozniak in CUPERTINO, CALIFORNIA, on 1976-04-01. The company initially raised $1,000 to develop their first product. In 2023, Apple reported a 15% revenue increase, reaching a total of $387.53 billion.",
-        "The history of programming languages spans from documentation of early mechanical computers to modern tools for software development. Early programming languages were highly specialized, relying on mathematical notation and similarly obscure syntax. Throughout the 20th century, research in compiler theory led to the creation of high-level programming languages, which use a more accessible syntax to communicate instructions. The first high-level programming language was created by Konrad Zuse in 1943. The first highlevel language to have an associated compiler was created by Corrado Böhm in 1951. Konrad Zuse was born on 1910/06/22, in GERMANY, and was a notable civil engineer, pioneering computer scientist, inventor, and businessman."
-    };
+    public static readonly bool DEVELOPMENT = true;
     static void Main()
     {
         LandingPage();
@@ -47,7 +44,8 @@
                     Console.WriteLine("The question you have asked is invalid, please rephrase your question and ask again");
                     Console.ResetColor();
                     Console.Write("\nContinue... ");
-                    Console.ReadKey();
+                    if (!DEVELOPMENT) Console.ReadKey(false);
+                    else Console.ReadLine();
                     badQuestion++;
                     if (badQuestion >= 3)
                     {
@@ -76,16 +74,17 @@
                         }
                     }
                     Console.Write("Continue... ");
-                    Console.ReadKey();
+                    if (!DEVELOPMENT) Console.ReadKey(false);
+                    else Console.ReadLine();
                 }
             }
 
         } while (endProgram == false);
-        Console.Clear();
+        if (!DEVELOPMENT) Console.Clear();
         Console.WriteLine("Thank you for your patronage, come back anytime!");
         int milliseconds = 3000;
         Thread.Sleep(milliseconds);
-        Console.Clear();
+        if (!DEVELOPMENT) Console.Clear();
     }
 
     static void LandingPage()
@@ -106,7 +105,7 @@
                ╚══▀▀═╝ ╚═╝    ╚═╝  ╚═╝
 
 ";
-        Console.Clear();
+        if (!DEVELOPMENT) Console.Clear();
         Console.WriteLine("Shayan Delbari, Edward Angeles, and Brett Trudel are proud to present:");
         Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine(msg);
@@ -115,7 +114,8 @@
         Console.WriteLine("Factoid questions start with who, when, where, how many, or how much.");
         Console.WriteLine("");
         Console.WriteLine("Press any key to continue...");
-        Console.ReadKey();
+        if (!DEVELOPMENT) Console.ReadKey(false);
+        else Console.ReadLine();
     }
 
     static void OtherKeywords()
@@ -128,7 +128,7 @@
  \__\_\\__,_|\___||___/\__|_|\___/|_| |_|___/
 
 ";
-        Console.Clear();
+        if (!DEVELOPMENT) Console.Clear();
         Console.ForegroundColor = ConsoleColor.DarkYellow;
         Console.WriteLine(msg);
         Console.ResetColor();
@@ -149,7 +149,7 @@
  \___/| .__/ \__,_|\__,_|\__\___|   |_|\___/_/\_\\__|
       |_|                                            
 ";
-        Console.Clear();
+        if (!DEVELOPMENT) Console.Clear();
         Console.ForegroundColor = ConsoleColor.DarkYellow;
         Console.WriteLine(msg);
         Console.ResetColor();
@@ -178,7 +178,17 @@
     static bool CheckText(string text)
     {
         if (text == "") return false;
-        if (Split(text).Length < 2) return false;
+
+        bool noSpace = true;
+        for (int i = 0; i < text.Length; i++)
+        {
+            if (text[i] == ' ')
+            {
+                noSpace = false;
+                break;
+            }
+        }
+        if (noSpace) return false;
 
         return true;
     }
@@ -204,12 +214,13 @@ A factoid question is a closed-ended question based on one of these question wor
 
 Please ensure you phrase your question so it STARTS with one of the previous question words:";
 
-        Console.Clear();
+        if (!DEVELOPMENT) Console.Clear();
         Console.ForegroundColor = ConsoleColor.DarkYellow;
         Console.WriteLine(msg);
         Console.ResetColor();
         Console.WriteLine(guide);
-        Console.ReadKey();
+        if (!DEVELOPMENT) Console.ReadKey(false);
+        else Console.ReadLine();
     }
 
     // static void WriteLine(string msg, )
@@ -255,21 +266,19 @@ Please ensure you phrase your question so it STARTS with one of the previous que
     static string RemoveStopWords(string question)
     //remove stop words from the question - this will have less iters as it is the shorter string, and will allow us to simply print the sentence that corresponds to the answer w/o any additional formatting
     {
-        int i = 0;
-        bool isStopWord = false;
         string[] stopWords = { "and", "is", "are", "the", "a", "was", "in", "on" };
         string questionWithoutStopWords = "";
         string word = "";
 
-        while (question[i] != '?')
+        for (int i = 0; i < question.Length; i++)
         {
-            if (question[i] != ' ')
+            if (question[i] != ' ' && question[i] != '?')
             {
                 word += question[i];
             }
-
-            else if (question[i] == ' ')
+            else
             {
+                bool isStopWord = false;
                 for (int w = 0; w < stopWords.Length; w++)
                 {
                     if (word == stopWords[w])
@@ -280,15 +289,13 @@ Please ensure you phrase your question so it STARTS with one of the previous que
                 }
                 if (!isStopWord)
                 {
-                    questionWithoutStopWords += word;
+                    questionWithoutStopWords += word + " ";
                 }
                 word = ""; //empty the word for next round
             }
-
-            i++;
         }
 
-        return questionWithoutStopWords;
+        return Trim(questionWithoutStopWords);
     }
 
     static string[]? GetPerson(string sentence)
@@ -366,14 +373,14 @@ Please ensure you phrase your question so it STARTS with one of the previous que
 
         for (int i = 0; i < sentence.Length; i++)
         {
-            if (i < sentence.Length - 10 && Char.IsNumber(sentence[i]) && (sentence[i + 4] == '-' || sentence[i + 4] == '/') && (sentence[i + 7] == '-' || sentence[i + 7] == '/'))
+            if (i < sentence.Length - 9 && Char.IsNumber(sentence[i]) && (sentence[i + 4] == '-' || sentence[i + 4] == '/') && (sentence[i + 7] == '-' || sentence[i + 7] == '/'))
             {
                 endDateIndex = i + 10;
                 output[size] = sentence[i..endDateIndex];
                 size++;
                 i += 10;
             }
-            else if (i < sentence.Length - 4 && Char.IsNumber(sentence[i]) && (sentence[i + 4] == ' ' || sentence[i + 4] == ','))
+            else if (i < sentence.Length - 3 && Char.IsNumber(sentence[i]) && (sentence[i + 4] == ' ' || sentence[i + 4] == ','))
             {
                 bool allNumbers = true;
                 for (int j = 0; j < 4; j++)
@@ -462,7 +469,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
             {
                 for (int u = 0; u < questionWords.Length; u++)
                 {
-                    if (wordText[j] == questionWords[u])
+                    if (wordText[j].ToLower() == questionWords[u].ToLower()) // FIXME: don't use these
                     {
                         similarityCounter++;
                         break;
