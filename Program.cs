@@ -1,6 +1,6 @@
 ﻿class Program
 {
-    public static readonly bool DEVELOPMENT = true;
+    public static readonly bool DEVELOPMENT = false;
     static void Main()
     {
         LandingPage();
