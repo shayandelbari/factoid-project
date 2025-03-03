@@ -6,7 +6,8 @@ Hi there! 👋
 
 This is a C# project we created for **LaSalle College**. The goal is to process text provided by the user and answer questions based on a specific template. Factoid questions are closed-ended questions that start with words like "Who," "When," "Where," "How many," or "How much."
 
-![Sample_video](<assets/factoid project.mp4>)
+![factoid project](https://github.com/user-attachments/assets/b68e9c74-ea53-4408-b54b-0cae86cc0f23)
+
 
 ## What You’ll Find
 
