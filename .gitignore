@@ -6,6 +6,9 @@
 # dotenv files
 .env
 
+# build script
+build.ps1
+
 # User-specific files
 *.rsuser
 *.suo

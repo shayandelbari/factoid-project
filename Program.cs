@@ -380,7 +380,7 @@ Please ensure you phrase your question so it STARTS with one of the previous que
                 size++;
                 i += 10;
             }
-            else if (i < sentence.Length - 3 && Char.IsNumber(sentence[i]) && (sentence[i + 4] == ' ' || sentence[i + 4] == ','))
+            else if (i < sentence.Length - 4 && Char.IsNumber(sentence[i]) && (sentence[i + 4] == ' ' || sentence[i + 4] == ','))
             {
                 bool allNumbers = true;
                 for (int j = 0; j < 4; j++)
@@ -571,13 +571,13 @@ Please ensure you phrase your question so it STARTS with one of the previous que
         if (text.Length == 0) return text;
         bool found = false;
         int i;
-        char[] listUpper = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+        char[] listUpper = [ 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
                             'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
-                            'U', 'V', 'W', 'X', 'Y', 'Z' };
+                            'U', 'V', 'W', 'X', 'Y', 'Z' ];
 
-        char[] listLower = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+        char[] listLower = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
                             'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-                            'u', 'v', 'w', 'x', 'y', 'z' };
+                            'u', 'v', 'w', 'x', 'y', 'z' ];
 
         if (Char.IsUpper(Split(text)[1][0])) return text;
 
