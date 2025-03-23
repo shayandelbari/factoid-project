@@ -43,7 +43,7 @@ Once the project is running, you can interact with the program by asking factoid
 
 This project was developed in collaboration with:
 
-- Shayan Delbari
+- Shayan Delbari (me)
 - Edward Angeles
 - Brett Trudel
 
