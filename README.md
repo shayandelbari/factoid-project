@@ -44,8 +44,8 @@ Once the project is running, you can interact with the program by asking factoid
 This project was developed in collaboration with:
 
 - Shayan Delbari (me)
-- Edward Angeles
-- Brett Trudel
+- [Edward Angeles](https://github.com/edward-angeles)
+- [Brett Trudel](https://github.com/bTru625)
 
 ## License
 
